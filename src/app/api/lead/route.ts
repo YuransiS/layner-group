@@ -14,7 +14,8 @@ export async function POST(req: NextRequest) {
       : req.headers.get("x-real-ip") || "unknown";
 
     const country = req.headers.get("x-vercel-ip-country") || "";
-    const city = req.headers.get("x-vercel-ip-city") || "";
+    const rawCity = req.headers.get("x-vercel-ip-city") || "";
+    const city = rawCity ? decodeURIComponent(rawCity) : "";
     const geo = city && country ? `${city}, ${country}` : (country || "");
 
     const payload = {
