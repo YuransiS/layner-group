@@ -35,16 +35,18 @@ fervent-kepler/
 │   │   ├── layout.tsx            # Метаданные, viewport, html lang wrapper
 │   │   └── page.tsx              # Главный лендинг (Hero, Benefits, About, Target, Steps, FAQ, Form, Footer)
 │   ├── components/
-│   │   ├── Header.tsx            # Навигация, логотип, переключатель языков RU/BG/RO
-│   │   ├── HeroSection.tsx       # H1, оффер, быстрая форма захвата, тематическое изображение
-│   │   ├── WhyUsSection.tsx      # Преимущества (фиксированная ставка, км, биржи, оплата)
-│   │   ├── AboutSection.tsx      # О Layner Group (5+ лет, 10k+ рейсов, Польша/Франция)
-│   │   ├── TargetAudience.tsx    # Кого мы ищем (тентованные, CMR, юрлицо, дедлайны)
+│   │   ├── Header.tsx            # Навигация, логотип, выпадающий список языков RU/BG/RO
+│   │   ├── HeroSection.tsx       # H1, оффер, единая CTA кнопка (скролл на десктопе / модалка на мобилке)
+│   │   ├── WhyUsSection.tsx      # Преимущества (5 пунктов строго из ТЗ)
+│   │   ├── AboutSection.tsx      # О Layner Group (опыт, рейсы, биржи, география)
+│   │   ├── TargetAudience.tsx    # Кого мы ищем (4 категории)
 │   │   ├── StepsSection.tsx      # 3 шага старта работы
-│   │   ├── FaqSection.tsx        # Аккордеон с ответами на частые вопросы
-│   │   ├── PartnerForm.tsx       # Полная форма квалификации партнера + отправка в Google Таблицу
+│   │   ├── FaqSection.tsx        # Аккордеон с 4 вопросами из ТЗ
+│   │   ├── UnifiedPartnerForm.tsx# Единая форма с жесткой валидацией телефона и отправкой в CRM
+│   │   ├── PartnerForm.tsx       # Нижняя секция лендинга с единой формой
+│   │   ├── LeadModal.tsx         # Модальное окно с единой формой для мобильных устройств
 │   │   ├── SuccessModal.tsx      # Модальное окно подтверждения заявки
-│   │   └── Footer.tsx            # Футер, реквизиты, контакты WhatsApp
+│   │   └── Footer.tsx            # Минималистичный футер
 │   ├── context/
 │   │   └── LanguageContext.tsx   # Автоопределение языка устройства (RU/BG/RO) + ручной свитчер
 │   ├── data/
