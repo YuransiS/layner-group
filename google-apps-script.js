@@ -2,7 +2,7 @@
  * Google Apps Script для Layner Group CRM
  * 
  * Автоматически создает структуру таблицы с разделением на:
- * - Колонки из формы (заполняются сайтом)
+ * - Колонки из формы (заполняются сайтом + IP/Geo по Vercel)
  * - Колонки для менеджера (с выпадающим списком статусов)
  */
 
@@ -37,7 +37,6 @@ function doPost(e) {
     }
 
     var now = new Date();
-    // Часовой пояс (Варшава / Европа)
     var dateStr = Utilities.formatDate(now, "Europe/Warsaw", "dd.MM.yyyy");
     var timeStr = Utilities.formatDate(now, "Europe/Warsaw", "HH:mm:ss");
 
@@ -47,31 +46,33 @@ function doPost(e) {
     // 3. Формирование строки согласно ТЗ
     var rowData = [
       // Автоматические колонки:
-      dateStr,                                              // 1. Дата заявки
-      timeStr,                                              // 2. Время заявки
-      data.name ? (companyId + " (" + data.name + ")") : companyId, // 3. ID компании / Заявитель
-      data.phone || "",                                     // 4. Номер телефона
-      data.email || "—",                                    // 5. Email (если оставили на сайте)
-      data.has_license || "Да",                             // 6. Есть ли лицензии (ЕС + CMR)
-      data.company_status || "Работает (активна)",          // 7. Работают ли (статус деятельности)
-      data.truck_details || "—",                            // 8. Количество машин и тоннаж
-      data.departure || "—",                                // 9. Откуда выезд
-      data.form_type === "quick_hero" ? "Быстрая (Hero)" : "Полная квалификация", // 10. Тип формы
-      (data.language || "RU").toUpperCase(),                // 11. Язык
-      data.source || "",                                    // 12. Источник (URL)
+      dateStr,                                                              // 1. Дата заявки
+      timeStr,                                                              // 2. Время заявки
+      data.name ? (companyId + " (" + data.name + ")") : companyId,         // 3. ID компании / Заявитель
+      data.phone || "",                                                     // 4. Номер телефона
+      data.email || "—",                                                    // 5. Email (если оставили на сайте)
+      data.has_license || "Да",                                             // 6. Есть ли лицензии
+      data.company_status || "Работает (активна)",                          // 7. Работают ли (статус деятельности)
+      data.truck_details || "—",                                            // 8. Машины и вес
+      data.departure || "—",                                                // 9. Откуда выезд
+      data.ip || "—",                                                       // 10. IP адрес (определен через Vercel)
+      data.geo || "—",                                                      // 11. Геолокация (Страна / Город)
+      data.form_type === "quick_hero" ? "Быстрая (Hero)" : "Полная заявка", // 12. Тип формы
+      (data.language || "RU").toUpperCase(),                                // 13. Язык заявки
+      data.source || "",                                                    // 14. Источник (URL)
 
       // Колонки для менеджера (заполняются вручную):
-      "",                                                   // 13. Ответственный менеджер
-      "новая",                                              // 14. Статус (по умолчанию "новая")
-      "",                                                   // 15. Дата и время первого контакта
-      "",                                                   // 16. Комментарий
-      ""                                                    // 17. Следующий шаг и дата
+      "",                                                                   // 15. Ответственный менеджер
+      "новая",                                                              // 16. Статус (по умолчанию "новая")
+      "",                                                                   // 17. Дата и время первого контакта
+      "",                                                                   // 18. Комментарий
+      ""                                                                    // 19. Следующий шаг и дата
     ];
 
     sheet.appendRow(rowData);
 
-    // 4. Добавляем выпадающий список (Data Validation) для колонки статуса
-    var statusCell = sheet.getRange(nextRow, 14);
+    // 4. Добавляем выпадающий список (Data Validation) для колонки статуса (Колонка 16)
+    var statusCell = sheet.getRange(nextRow, 16);
     var rule = SpreadsheetApp.newDataValidation()
       .requireValueInList(STATUS_OPTIONS, true)
       .setAllowInvalid(false)
@@ -79,7 +80,7 @@ function doPost(e) {
     statusCell.setDataValidation(rule);
 
     return ContentService.createTextOutput(
-      JSON.stringify({ status: "success", id: companyId })
+      JSON.stringify({ status: "success", id: companyId, ip: data.ip })
     ).setMimeType(ContentService.MimeType.JSON);
 
   } catch (err) {
@@ -101,14 +102,11 @@ function doGet(e) {
   ).setMimeType(ContentService.MimeType.JSON);
 }
 
-/**
- * Создает и стилизует структуру колонок в таблице
- */
 function ensureHeaders(sheet) {
   if (sheet.getLastRow() > 0) return;
 
   var headers = [
-    // 1-12: Автоматические колонки
+    // 1-14: Автоматические колонки
     "Дата заявки",
     "Время заявки",
     "ID компании",
@@ -118,11 +116,13 @@ function ensureHeaders(sheet) {
     "Работают ли (статус деятельности)",
     "Машины и вес",
     "Откуда выезд",
+    "IP адрес",
+    "Геолокация",
     "Тип формы",
     "Язык заявки",
     "Источник",
 
-    // 13-17: Колонки для менеджера
+    // 15-19: Колонки для менеджера
     "Ответственный менеджер",
     "Статус",
     "Дата и время первого контакта",
@@ -132,15 +132,15 @@ function ensureHeaders(sheet) {
 
   sheet.appendRow(headers);
 
-  // Стилизация автоматических колонок (Teal #237D73)
-  var autoRange = sheet.getRange(1, 1, 1, 12);
+  // Стилизация колонок формы (Teal #237D73)
+  var autoRange = sheet.getRange(1, 1, 1, 14);
   autoRange.setBackground("#237D73")
     .setFontColor("#FFFFFF")
     .setFontWeight("bold")
     .setHorizontalAlignment("center");
 
-  // Стилизация колонок менеджера (Dark Slate / Graphite #123D39)
-  var managerRange = sheet.getRange(1, 13, 1, 5);
+  // Стилизация колонок менеджера (Dark Slate #123D39 + Lime #D9FF43)
+  var managerRange = sheet.getRange(1, 15, 1, 5);
   managerRange.setBackground("#123D39")
     .setFontColor("#D9FF43")
     .setFontWeight("bold")
@@ -149,23 +149,24 @@ function ensureHeaders(sheet) {
   sheet.setFrozenRows(1);
   sheet.setRowHeight(1, 40);
 
-  // Выравнивание ширины колонок
-  sheet.setColumnWidth(1, 110); // Дата
-  sheet.setColumnWidth(2, 100); // Время
-  sheet.setColumnWidth(3, 180); // ID / Компания
-  sheet.setColumnWidth(4, 160); // Телефон
-  sheet.setColumnWidth(5, 180); // Email
-  sheet.setColumnWidth(6, 140); // Лицензии
-  sheet.setColumnWidth(7, 160); // Работают ли
-  sheet.setColumnWidth(8, 180); // Машины
-  sheet.setColumnWidth(9, 150); // Выезд
-  sheet.setColumnWidth(10, 130); // Форма
-  sheet.setColumnWidth(11, 100); // Язык
-  sheet.setColumnWidth(12, 150); // Источник
+  sheet.setColumnWidth(1, 110);
+  sheet.setColumnWidth(2, 100);
+  sheet.setColumnWidth(3, 200);
+  sheet.setColumnWidth(4, 160);
+  sheet.setColumnWidth(5, 180);
+  sheet.setColumnWidth(6, 140);
+  sheet.setColumnWidth(7, 160);
+  sheet.setColumnWidth(8, 180);
+  sheet.setColumnWidth(9, 150);
+  sheet.setColumnWidth(10, 130);
+  sheet.setColumnWidth(11, 140);
+  sheet.setColumnWidth(12, 130);
+  sheet.setColumnWidth(13, 100);
+  sheet.setColumnWidth(14, 150);
 
-  sheet.setColumnWidth(13, 170); // Менеджер
-  sheet.setColumnWidth(14, 140); // Статус
-  sheet.setColumnWidth(15, 180); // Первый контакт
-  sheet.setColumnWidth(16, 220); // Комментарий
-  sheet.setColumnWidth(17, 180); // След. шаг
+  sheet.setColumnWidth(15, 170);
+  sheet.setColumnWidth(16, 140);
+  sheet.setColumnWidth(17, 180);
+  sheet.setColumnWidth(18, 220);
+  sheet.setColumnWidth(19, 180);
 }

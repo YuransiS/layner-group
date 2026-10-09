@@ -10,7 +10,6 @@ export interface Translations {
     ctaButton: string;
   };
   hero: {
-    badge: string;
     title: string;
     subtitle: string;
     namePlaceholder: string;
@@ -20,11 +19,9 @@ export interface Translations {
   };
   whyUs: {
     title: string;
-    subtitle: string;
     items: {
       title: string;
       desc: string;
-      tag: string;
     }[];
   };
   about: {
@@ -32,17 +29,13 @@ export interface Translations {
     desc1: string;
     desc2: string;
     tags: string[];
-    stats: {
-      value: string;
-      label: string;
-    }[];
   };
   target: {
     title: string;
     note: string;
     items: {
       title: string;
-      desc: string;
+      icon: string;
     }[];
   };
   steps: {
@@ -79,67 +72,56 @@ export interface Translations {
     submitButton: string;
     submitting: string;
     successMessage: string;
-  };
-  modal: {
-    title: string;
-    text: string;
-    close: string;
+    phoneError: string;
+    consentError: string;
   };
   footer: {
     rights: string;
     location: string;
-    privacy: string;
   };
 }
 
 export const translations: Record<Language, Translations> = {
   ru: {
     nav: {
-      whyUs: "Преимущества",
-      about: "О компании",
-      whoWeLookFor: "Кого ищем",
+      whyUs: "Почему мы",
+      about: "О Layner Group",
+      whoWeLookFor: "Кого мы ищем",
       howToStart: "Как начать",
       faq: "FAQ",
       ctaButton: "Стать партнёром",
     },
     hero: {
-      badge: "ЛОГИСТИКА ПО ВСЕЙ ЕВРОПЕ · 24/7",
       title: "Стань партнёром Layner Group",
       subtitle:
         "Ежедневные загрузки по Европе для владельцев тентованных машин. Фиксированная ставка за км + гарантированный километраж каждый месяц.",
-      namePlaceholder: "Ваше имя",
-      phonePlaceholder: "Номер телефона / WhatsApp",
+      namePlaceholder: "Имя",
+      phonePlaceholder: "Номер телефона",
       ctaButton: "Стать партнёром",
       loading: "Отправка...",
     },
     whyUs: {
       title: "Почему стоит начать работать с нами?",
-      subtitle: "Прозрачные условия, надежность и полное экспедиторское сопровождение",
       items: [
         {
           title: "Фиксированная ставка за км",
           desc: "Одна ставка независимо от загрузки.",
-          tag: "Тариф",
         },
         {
           title: "Гарантированный километраж",
           desc: "Заранее согласовываем объём км на месяц.",
-          tag: "Объем",
         },
         {
           title: "Загрузки каждый день",
           desc: "Свои клиенты + 5+ транспортных бирж.",
-          tag: "Поток",
         },
         {
           title: "Маршрут строим мы",
           desc: "Не нужно самостоятельно искать грузы.",
-          tag: "Диспетчер",
         },
         {
           title: "Оплата в евро",
           desc: "Через 30 дней или факторинг.",
-          tag: "Финансы",
         },
       ],
     },
@@ -151,15 +133,9 @@ export const translations: Record<Language, Translations> = {
         "У нас собственные клиенты и 5+ транспортных бирж. Наши логисты ищут загрузки и планируют маршруты, чтобы ваши машины меньше простаивали.",
       tags: [
         "Польская компания",
-        "Офис во Франции",
-        "Работа по Европе",
-        "Оплата в евро",
-      ],
-      stats: [
-        { value: "5+ лет", label: "Опыта на рынке ЕС" },
-        { value: "10 000+", label: "Успешных рейсов" },
-        { value: "5+", label: "Транспортных бирж" },
-        { value: "24/7", label: "Поддержка логистов" },
+        "офис во Франции",
+        "работа по Европе",
+        "оплата в евро",
       ],
     },
     target: {
@@ -167,20 +143,20 @@ export const translations: Record<Language, Translations> = {
       note: "Работаем как с владельцами одной машины, так и с компаниями с собственным парком.",
       items: [
         {
+          icon: "🚛",
           title: "Владельцев тентованных машин",
-          desc: "Тентованные полуприцепы и автопоезда под европейские перевозки",
         },
         {
+          icon: "🇪🇺",
           title: "Лицензия ЕС + CMR",
-          desc: "Действующая международная транспортная лицензия и страховка CMR",
         },
         {
+          icon: "🏢",
           title: "Собственная транспортная компания",
-          desc: "Официальное юридическое лицо (EU) или индивидуальный предприниматель",
         },
         {
+          icon: "⏱",
           title: "Соблюдение сроков",
-          desc: "Пунктуальность и ответственный подход к графикам подачи машин",
         },
       ],
     },
@@ -230,81 +206,70 @@ export const translations: Record<Language, Translations> = {
       title: "Станьте партнёром Layner Group",
       subtitle: "Оставьте заявку — менеджер свяжется с вами в WhatsApp.",
       nameLabel: "Имя",
-      namePlaceholder: "Ваше имя или название компании",
+      namePlaceholder: "Имя",
       truckLabel: "Количество тентованных машин и вес",
-      truckPlaceholder: "Например: 2 тягача с тентом, 24 т",
+      truckPlaceholder: "Количество тентованных машин и вес",
       departureLabel: "Откуда выезжаете",
-      departurePlaceholder: "Город, страна стоянки / базирования",
+      departurePlaceholder: "Откуда выезжаете",
       phoneLabel: "Телефон / WhatsApp",
-      phonePlaceholder: "+XXXXXXXXXXXX",
+      phonePlaceholder: "Телефон / WhatsApp",
       licenseLabel: "Есть лицензия ЕС и CMR?",
-      licenseYes: "Да, есть все документы",
-      licenseNo: "В процессе оформления",
+      licenseYes: "Да",
+      licenseNo: "Нет / В процессе",
       consentText: "Согласен на обработку персональных данных",
       submitButton: "Отправить заявку",
-      submitting: "Отправка заявки...",
+      submitting: "Отправка...",
       successMessage:
         "Готово! Напишем вам в WhatsApp в течение рабочего дня.",
-    },
-    modal: {
-      title: "Заявка успешно принята!",
-      text: "Готово! Напишем вам в WhatsApp в течение рабочего дня.",
-      close: "Отлично",
+      phoneError: "Пожалуйста, введите корректный номер телефона (от 8 цифр)",
+      consentError: "Необходимо согласие на обработку персональных данных",
     },
     footer: {
       rights: "Layner Group. Все права защищены.",
-      location: "Польша · Франция · Общеевропейская сеть перевозок",
-      privacy: "Конфиденциальность и безопасность данных",
+      location: "Польская компания · офис во Франции · работа по Европе · оплата в евро",
     },
   },
 
   bg: {
     nav: {
-      whyUs: "Предимства",
-      about: "За нас",
+      whyUs: "Защо нас",
+      about: "За Layner Group",
       whoWeLookFor: "Кого търсим",
       howToStart: "Как да започнете",
-      faq: "Въпроси",
+      faq: "Често задавани въпроси",
       ctaButton: "Станете партньор",
     },
     hero: {
-      badge: "ЛОГИСТИКА ИЗ ЦЯЛА ЕВРОПА · 24/7",
       title: "Станете партньор на Layner Group",
       subtitle:
         "Ежедневни товари из цяла Европа за собственици на тентови камиони. Фиксирана ставка на км + гарантиран километраж всеки месец.",
-      namePlaceholder: "Вашето име",
-      phonePlaceholder: "Телефонен номер / WhatsApp",
+      namePlaceholder: "Име",
+      phonePlaceholder: "Телефонен номер",
       ctaButton: "Станете партньор",
       loading: "Изпращане...",
     },
     whyUs: {
       title: "Защо да започнете работа с нас?",
-      subtitle: "Прозрачни условия, надеждност и пълна логистична подкрепа",
       items: [
         {
           title: "Фиксирана ставка на км",
           desc: "Една ставка независимо от натоварването.",
-          tag: "Тарифа",
         },
         {
           title: "Гарантиран километраж",
           desc: "Предварително договаряме обема километри за месеца.",
-          tag: "Обем",
         },
         {
           title: "Товари всеки ден",
           desc: "Собствени клиенти + 5+ транспортни борси.",
-          tag: "Поток",
         },
         {
           title: "Маршрута изграждаме ние",
           desc: "Не е нужно сами да търсите товари.",
-          tag: "Диспечер",
         },
         {
           title: "Плащане в евро",
           desc: "След 30 дни или чрез факторинг.",
-          tag: "Финанси",
         },
       ],
     },
@@ -316,15 +281,9 @@ export const translations: Record<Language, Translations> = {
         "Имаме собствени клиенти и 5+ транспортни борси. Нашите логисти търсят товари и планират маршрути, за да престояват камионите ви по-малко.",
       tags: [
         "Полска компания",
-        "Офис във Франция",
-        "Работа из цяла Европа",
-        "Плащане в евро",
-      ],
-      stats: [
-        { value: "5+ години", label: "Опит на пазара на ЕС" },
-        { value: "10 000+", label: "Изпълнени курсове" },
-        { value: "5+", label: "Транспортни борси" },
-        { value: "24/7", label: "Логистична поддръжка" },
+        "офис във Франция",
+        "работа из цяла Европа",
+        "плащане в евро",
       ],
     },
     target: {
@@ -332,20 +291,20 @@ export const translations: Record<Language, Translations> = {
       note: "Работим както със собственици на един камион, така и с фирми със собствен автопарк.",
       items: [
         {
+          icon: "🚛",
           title: "Собственици на тентови камиони",
-          desc: "Тентови полуремаркета и композиции за европейски превози",
         },
         {
+          icon: "🇪🇺",
           title: "Лиценз на ЕС + CMR",
-          desc: "Валиден международен лиценз за транспорт и CMR застраховка",
         },
         {
+          icon: "🏢",
           title: "Собствена транспортна фирма",
-          desc: "Официално регистрирана фирма в ЕС или едноличен търговец",
         },
         {
+          icon: "⏱",
           title: "Спазване на сроковете",
-          desc: "Точност и отговорен подход към графиците за товарене",
         },
       ],
     },
@@ -395,81 +354,70 @@ export const translations: Record<Language, Translations> = {
       title: "Станете партньор на Layner Group",
       subtitle: "Оставете заявка – мениджър ще се свърже с вас в WhatsApp.",
       nameLabel: "Име",
-      namePlaceholder: "Вашето име или фирма",
+      namePlaceholder: "Име",
       truckLabel: "Брой тентови камиони и товароподемност",
-      truckPlaceholder: "Напр.: 2 влекача с щора, 24 т",
+      truckPlaceholder: "Брой тентови камиони и товароподемност",
       departureLabel: "От къде тръгвате",
-      departurePlaceholder: "Град, държава на паркиране/база",
+      departurePlaceholder: "От къде тръгвате",
       phoneLabel: "Телефон / WhatsApp",
-      phonePlaceholder: "+XXXXXXXXXXXX",
+      phonePlaceholder: "Телефон / WhatsApp",
       licenseLabel: "Имате ли лиценз на ЕС и CMR?",
-      licenseYes: "Да, имам всички документи",
-      licenseNo: "В процес на оформяне",
+      licenseYes: "Да",
+      licenseNo: "Не / В процес",
       consentText: "Съгласен/а съм с обработването на личните ми данни",
       submitButton: "Изпратете заявката",
-      submitting: "Изпращане на заявката...",
+      submitting: "Изпращане...",
       successMessage:
         "Готово! Ще ви пишем в WhatsApp до края на работния ден.",
-    },
-    modal: {
-      title: "Заявката е приета успешно!",
-      text: "Готово! Ще ви пишем в WhatsApp до края на работния ден.",
-      close: "Разбрах",
+      phoneError: "Моля, въведете валиден телефонен номер (поне 8 цифри)",
+      consentError: "Необходимо е съгласие за обработване на личните данни",
     },
     footer: {
       rights: "Layner Group. Всички права запазени.",
-      location: "Полша · Франция · Общоевропейска мрежа за превози",
-      privacy: "Поверителност и сигурност на данните",
+      location: "Полска компания · офис във Франция · работа из цяла Европа · плащане в евро",
     },
   },
 
   ro: {
     nav: {
-      whyUs: "Avantaje",
-      about: "Despre noi",
+      whyUs: "De ce noi",
+      about: "Despre Layner Group",
       whoWeLookFor: "Pe cine căutăm",
       howToStart: "Cum începeți",
       faq: "Întrebări frecvente",
       ctaButton: "Deveniți partener",
     },
     hero: {
-      badge: "LOGISTICĂ ÎN TOATĂ EUROPA · 24/7",
       title: "Deveniți partener Layner Group",
       subtitle:
         "Încărcături zilnice în Europa pentru proprietarii de camioane cu prelată. Tarif fix pe km + kilometraj garantat în fiecare lună.",
-      namePlaceholder: "Numele dvs.",
-      phonePlaceholder: "Număr de telefon / WhatsApp",
+      namePlaceholder: "Nume",
+      phonePlaceholder: "Număr de telefon",
       ctaButton: "Deveniți partener",
       loading: "Se trimite...",
     },
     whyUs: {
       title: "De ce să începeți colaborarea cu noi?",
-      subtitle: "Condiții transparente, siguranță și asistență logistică completă",
       items: [
         {
           title: "Tarif fix pe km",
           desc: "Un singur tarif, indiferent de gradul de încărcare.",
-          tag: "Tarif",
         },
         {
           title: "Kilometraj garantat",
           desc: "Stabilim din timp volumul de km pe lună.",
-          tag: "Volum",
         },
         {
           title: "Încărcături în fiecare zi",
           desc: "Clienți proprii + 5+ burse de transport.",
-          tag: "Flux continuu",
         },
         {
           title: "Ruta o construim noi",
           desc: "Nu trebuie să căutați singuri marfă.",
-          tag: "Dispecerat",
         },
         {
           title: "Plata în euro",
           desc: "La 30 de zile sau prin factoring.",
-          tag: "Finanțe",
         },
       ],
     },
@@ -481,15 +429,9 @@ export const translations: Record<Language, Translations> = {
         "Avem clienți proprii și 5+ burse de transport. Logisticienii noștri caută încărcături și planifică rutele, astfel încât camioanele dvs. să stea cât mai puțin nefolosite.",
       tags: [
         "Companie poloneză",
-        "Birou în Franța",
-        "Transport în toată Europa",
-        "Plată în euro",
-      ],
-      stats: [
-        { value: "5+ ani", label: "Experiență pe piața UE" },
-        { value: "10 000+", label: "Curse finalizate" },
-        { value: "5+", label: "Burse de transport" },
-        { value: "24/7", label: "Asistență dispeceri" },
+        "birou în Franța",
+        "transport în toată Europa",
+        "plată în euro",
       ],
     },
     target: {
@@ -497,20 +439,20 @@ export const translations: Record<Language, Translations> = {
       note: "Colaborăm atât cu proprietari de un singur camion, cât și cu companii cu flotă proprie.",
       items: [
         {
+          icon: "🚛",
           title: "Proprietari de camioane cu prelată",
-          desc: "Semiremorci și ansambluri cu prelată pregătite pentru transport european",
         },
         {
+          icon: "🇪🇺",
           title: "Licență UE + CMR",
-          desc: "Licență valabilă de transport comunitar și asigurare CMR activă",
         },
         {
+          icon: "🏢",
           title: "Firmă de transport proprie",
-          desc: "Persoană juridică înregistrată în UE sau întreprindere individuală",
         },
         {
+          icon: "⏱",
           title: "Respectarea termenelor",
-          desc: "Punctualitate și atitudine responsabilă față de programul de încărcare/descărcare",
         },
       ],
     },
@@ -560,30 +502,26 @@ export const translations: Record<Language, Translations> = {
       title: "Deveniți partener Layner Group",
       subtitle: "Lăsați o cerere – un manager vă va contacta pe WhatsApp.",
       nameLabel: "Nume",
-      namePlaceholder: "Numele dvs. sau numele companiei",
+      namePlaceholder: "Nume",
       truckLabel: "Numărul de camioane cu prelată și tonajul",
-      truckPlaceholder: "Ex: 2 capete tractor cu prelată, 24 t",
+      truckPlaceholder: "Numărul de camioane cu prelată și tonajul",
       departureLabel: "Din ce loc plecați",
-      departurePlaceholder: "Orașul, țara unde este baza sau parcarea",
+      departurePlaceholder: "Din ce loc plecați",
       phoneLabel: "Telefon / WhatsApp",
-      phonePlaceholder: "+XXXXXXXXXXXX",
+      phonePlaceholder: "Telefon / WhatsApp",
       licenseLabel: "Aveți licență UE și CMR?",
-      licenseYes: "Da, dețin toate documentele",
-      licenseNo: "În curs de obținere",
+      licenseYes: "Da",
+      licenseNo: "Nu / În curs",
       consentText: "Sunt de acord cu prelucrarea datelor cu caracter personal",
       submitButton: "Trimiteți cererea",
-      submitting: "Se trimite cererea...",
+      submitting: "Se trimite...",
       successMessage: "Gata! Vă scriem pe WhatsApp în cursul zilei lucrătoare.",
-    },
-    modal: {
-      title: "Cererea a fost trimisă cu succes!",
-      text: "Gata! Vă scriem pe WhatsApp în cursul zilei lucrătoare.",
-      close: "Am înțeles",
+      phoneError: "Vă rugăm să introduceți un număr de telefon valid (minim 8 cifre)",
+      consentError: "Este necesar acordul pentru prelucrarea datelor cu caracter personal",
     },
     footer: {
       rights: "Layner Group. Toate drepturile rezervate.",
-      location: "Polonia · Franța · Rețea de transport paneuropeană",
-      privacy: "Confidențialitatea și securitatea datelor",
+      location: "Companie poloneză · birou în Franța · transport în toată Europa · plată în euro",
     },
   },
 };

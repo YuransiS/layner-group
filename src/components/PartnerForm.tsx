@@ -2,15 +2,8 @@
 
 import React, { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { submitLead } from "@/lib/sendLead";
-import {
-  Send,
-  CheckCircle2,
-  Lock,
-  MessageSquare,
-  ShieldCheck,
-  Truck,
-} from "lucide-react";
+import { submitLead, validatePhone } from "@/lib/sendLead";
+import { Send, CheckCircle2 } from "lucide-react";
 import confetti from "canvas-confetti";
 
 interface PartnerFormProps {
@@ -25,17 +18,28 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
   const [departure, setDeparture] = useState("");
   const [phone, setPhone] = useState("");
   const [hasLicense, setHasLicense] = useState("Да");
-  const [consent, setConsent] = useState(true);
+  const [consent, setConsent] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
+  const [consentError, setConsentError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!consent) {
-      alert("Пожалуйста, подтвердите согласие на обработку персональных данных.");
+    setPhoneError("");
+    setConsentError("");
+
+    if (!validatePhone(phone)) {
+      setPhoneError(t.form.phoneError);
       return;
     }
-    if (!name.trim() || !phone.trim() || isSubmitting) return;
+
+    if (!consent) {
+      setConsentError(t.form.consentError);
+      return;
+    }
+
+    if (!name.trim() || isSubmitting) return;
 
     setIsSubmitting(true);
     const ok = await submitLead({
@@ -43,7 +47,7 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
       phone: phone.trim(),
       truck_details: trucks.trim(),
       departure: departure.trim(),
-      has_license: hasLicense,
+      has_license: hasLicense === "Да" ? "Да" : "Нет",
       form_type: "full_application",
       language: lang,
     });
@@ -63,14 +67,9 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
   };
 
   return (
-    <section id="apply" className="py-16 sm:py-24 bg-[#123D39] text-white relative">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="apply" className="py-16 sm:py-24 bg-[#123D39] text-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-[#D9FF43] text-xs font-accent tracking-wider font-bold mb-3">
-            <MessageSquare className="w-4 h-4" />
-            <span>ПРЯМАЯ СВЯЗЬ С ЛОГИСТАМИ</span>
-          </div>
-
           <h2 className="font-headline font-bold text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
             {t.form.title}
           </h2>
@@ -83,25 +82,13 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
         {/* Form Container */}
         <div className="bg-[#F4F3EE] text-[#161D1C] rounded-3xl p-6 sm:p-10 border border-[#C9CFCC] shadow-2xl">
           {isSubmitted ? (
-            <div className="text-center py-12 px-4 space-y-4">
+            <div className="text-center py-10 px-4 space-y-4">
               <div className="w-16 h-16 rounded-2xl bg-[#237D73] text-[#D9FF43] mx-auto flex items-center justify-center">
                 <CheckCircle2 className="w-9 h-9" />
               </div>
               <h3 className="font-headline font-bold text-2xl sm:text-3xl text-[#123D39]">
                 {t.form.successMessage}
               </h3>
-              <p className="font-body text-sm sm:text-base text-[#161D1C]/70 max-w-md mx-auto">
-                Данные успешно переданы в диспетчерский отдел. Мы свяжемся с вами в WhatsApp для согласования маршрута и ставки.
-              </p>
-              <div className="pt-4">
-                <button
-                  type="button"
-                  onClick={() => setIsSubmitted(false)}
-                  className="px-6 py-2.5 rounded-xl font-headline font-semibold text-sm bg-[#123D39] text-[#D9FF43]"
-                >
-                  Отправить ещё одну заявку
-                </button>
-              </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -109,7 +96,7 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
                 {/* 1. Имя */}
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#123D39] mb-2 font-accent">
-                    {t.form.nameLabel} *
+                    {t.form.nameLabel}
                   </label>
                   <input
                     type="text"
@@ -117,23 +104,35 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder={t.form.namePlaceholder}
-                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-[#C9CFCC] text-[#161D1C] placeholder-[#161D1C]/40 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] focus:border-transparent transition-all"
+                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-[#C9CFCC] text-[#161D1C] placeholder-[#161D1C]/40 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] transition-all"
                   />
                 </div>
 
                 {/* 2. Телефон / WhatsApp */}
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-wider text-[#123D39] mb-2 font-accent">
-                    {t.form.phoneLabel} *
+                    {t.form.phoneLabel}
                   </label>
                   <input
                     type="tel"
                     required
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                      if (phoneError) setPhoneError("");
+                    }}
                     placeholder={t.form.phonePlaceholder}
-                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-[#C9CFCC] text-[#161D1C] placeholder-[#161D1C]/40 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] focus:border-transparent transition-all"
+                    className={`w-full px-4 py-3.5 rounded-xl bg-white border text-[#161D1C] placeholder-[#161D1C]/40 text-sm focus:outline-none focus:ring-2 transition-all ${
+                      phoneError
+                        ? "border-red-500 focus:ring-red-500"
+                        : "border-[#C9CFCC] focus:ring-[#237D73]"
+                    }`}
                   />
+                  {phoneError && (
+                    <p className="text-xs text-red-600 font-medium mt-1">
+                      {phoneError}
+                    </p>
+                  )}
                 </div>
 
                 {/* 3. Количество тентованных машин и вес */}
@@ -146,7 +145,7 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
                     value={trucks}
                     onChange={(e) => setTrucks(e.target.value)}
                     placeholder={t.form.truckPlaceholder}
-                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-[#C9CFCC] text-[#161D1C] placeholder-[#161D1C]/40 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] focus:border-transparent transition-all"
+                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-[#C9CFCC] text-[#161D1C] placeholder-[#161D1C]/40 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] transition-all"
                   />
                 </div>
 
@@ -160,7 +159,7 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
                     value={departure}
                     onChange={(e) => setDeparture(e.target.value)}
                     placeholder={t.form.departurePlaceholder}
-                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-[#C9CFCC] text-[#161D1C] placeholder-[#161D1C]/40 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] focus:border-transparent transition-all"
+                    className="w-full px-4 py-3.5 rounded-xl bg-white border border-[#C9CFCC] text-[#161D1C] placeholder-[#161D1C]/40 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] transition-all"
                   />
                 </div>
               </div>
@@ -175,7 +174,7 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
                     className={`flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
                       hasLicense === "Да"
                         ? "bg-[#237D73]/10 border-[#237D73] text-[#123D39] font-medium"
-                        : "bg-white border-[#C9CFCC] text-[#161D1C]/80 hover:bg-[#D9E0DD]/30"
+                        : "bg-white border-[#C9CFCC] text-[#161D1C]/80"
                     }`}
                   >
                     <input
@@ -191,16 +190,16 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
 
                   <label
                     className={`flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
-                      hasLicense === "В процессе"
+                      hasLicense === "Нет"
                         ? "bg-[#237D73]/10 border-[#237D73] text-[#123D39] font-medium"
-                        : "bg-white border-[#C9CFCC] text-[#161D1C]/80 hover:bg-[#D9E0DD]/30"
+                        : "bg-white border-[#C9CFCC] text-[#161D1C]/80"
                     }`}
                   >
                     <input
                       type="radio"
                       name="license"
-                      value="В процессе"
-                      checked={hasLicense === "В процессе"}
+                      value="Нет"
+                      checked={hasLicense === "Нет"}
                       onChange={(e) => setHasLicense(e.target.value)}
                       className="accent-[#237D73]"
                     />
@@ -215,13 +214,21 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
                   <input
                     type="checkbox"
                     checked={consent}
-                    onChange={(e) => setConsent(e.target.checked)}
+                    onChange={(e) => {
+                      setConsent(e.target.checked);
+                      if (consentError) setConsentError("");
+                    }}
                     className="w-4 h-4 mt-0.5 rounded border-[#C9CFCC] accent-[#237D73] text-[#237D73]"
                   />
-                  <span className="text-xs text-[#161D1C]/75 leading-relaxed font-body">
+                  <span className="text-xs text-[#161D1C]/80 leading-relaxed font-body">
                     {t.form.consentText}
                   </span>
                 </label>
+                {consentError && (
+                  <p className="text-xs text-red-600 font-medium mt-1">
+                    {consentError}
+                  </p>
+                )}
               </div>
 
               {/* Submit button */}
@@ -229,21 +236,13 @@ export function PartnerForm({ onSuccess }: PartnerFormProps) {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 px-8 rounded-xl font-headline font-bold text-base bg-[#237D73] hover:bg-[#123D39] text-[#D9FF43] transition-all flex items-center justify-center gap-2 shadow-lg hover:shadow-xl active:scale-[0.99] disabled:opacity-75 cursor-pointer"
+                  className="w-full py-4 px-8 rounded-xl font-headline font-bold text-base bg-[#237D73] hover:bg-[#123D39] text-[#D9FF43] transition-all flex items-center justify-center gap-2 shadow-lg active:scale-[0.99] disabled:opacity-75 cursor-pointer"
                 >
                   <Send className="w-5 h-5 text-[#D9FF43]" />
                   <span>
                     {isSubmitting ? t.form.submitting : t.form.submitButton}
                   </span>
                 </button>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center justify-between text-xs text-[#161D1C]/60 pt-2 border-t border-[#C9CFCC]/60 gap-2">
-                <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-4 h-4 text-[#237D73]" />
-                  Безопасная передача данных в Google Sheets
-                </span>
-                <span>Менеджер напишет в WhatsApp</span>
               </div>
             </form>
           )}

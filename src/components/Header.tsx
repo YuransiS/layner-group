@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { Language } from "@/data/translations";
-import { Truck, Menu, X, Globe, PhoneCall } from "lucide-react";
+import { Menu, X, Globe } from "lucide-react";
 
 export function Header() {
   const { lang, setLang, t } = useLanguage();
@@ -19,20 +19,11 @@ export function Header() {
     <header className="sticky top-0 z-50 bg-[#F4F3EE]/95 backdrop-blur-md border-b border-[#C9CFCC]/40 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-xl bg-[#123D39] flex items-center justify-center text-[#D9FF43] shadow-sm group-hover:bg-[#237D73] transition-colors">
-              <Truck className="w-6 h-6" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-headline font-bold text-xl tracking-tight text-[#161D1C] flex items-center gap-1 leading-none">
-                LAYNER <span className="text-[#237D73]">GROUP</span>
-                <span className="w-2 h-2 rounded-full bg-[#D9FF43] inline-block animate-pulse"></span>
-              </span>
-              <span className="font-accent uppercase tracking-widest text-xs text-[#161D1C]/60 mt-1">
-                European Freight
-              </span>
-            </div>
+          {/* Logo: только надпись Layner Group без иконки */}
+          <a href="#" className="flex items-center">
+            <span className="font-headline font-bold text-2xl tracking-tight text-[#161D1C]">
+              LAYNER <span className="text-[#237D73]">GROUP</span>
+            </span>
           </a>
 
           {/* Desktop Navigation */}
@@ -71,14 +62,13 @@ export function Header() {
 
           {/* Right Controls: Language Switcher & Quick CTA */}
           <div className="hidden sm:flex items-center gap-4">
-            {/* Language Selector */}
             <div className="flex items-center bg-[#D9E0DD]/60 rounded-xl p-1 border border-[#C9CFCC]/60">
               <Globe className="w-4 h-4 ml-2 mr-1 text-[#123D39]" />
               {languages.map((l) => (
                 <button
                   key={l.code}
                   onClick={() => setLang(l.code)}
-                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg transition-all flex items-center gap-1 ${
+                  className={`px-2.5 py-1 text-xs font-semibold rounded-lg transition-all flex items-center gap-1 cursor-pointer ${
                     lang === l.code
                       ? "bg-[#123D39] text-[#F4F3EE] shadow-xs"
                       : "text-[#161D1C]/70 hover:text-[#161D1C] hover:bg-white/40"
@@ -91,10 +81,9 @@ export function Header() {
               ))}
             </div>
 
-            {/* CTA Button */}
             <a
               href="#apply"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-headline font-semibold text-sm bg-[#123D39] text-[#D9FF43] hover:bg-[#237D73] transition-all shadow-sm hover:shadow active:scale-98"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-headline font-semibold text-sm bg-[#123D39] text-[#D9FF43] hover:bg-[#237D73] transition-all shadow-sm hover:shadow"
             >
               <span>{t.nav.ctaButton}</span>
             </a>

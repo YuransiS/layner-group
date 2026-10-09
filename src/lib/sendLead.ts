@@ -13,6 +13,12 @@ export interface LeadData {
 const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwbjB_JP2e-CU0UPte24vOC_0ivzRskf21AcAUulsn-lyewvp2EcQmchARdtF9pZ9tD/exec";
 
+export function validatePhone(phone: string): boolean {
+  // Минимум 8 цифр, допустимы символы +, -, пробелы, скобки
+  const digitsOnly = phone.replace(/\D/g, "");
+  return digitsOnly.length >= 8 && digitsOnly.length <= 16;
+}
+
 export async function submitLead(data: LeadData): Promise<boolean> {
   const payload = {
     ...data,
@@ -20,14 +26,29 @@ export async function submitLead(data: LeadData): Promise<boolean> {
     source: typeof window !== "undefined" ? window.location.href : "direct",
   };
 
+  // 1. Попытка отправки через серверную ручку Next.js /api/lead (автоопределение IP на Vercel)
   try {
-    // We send payload as URLSearchParams for maximum Google Apps Script compatibility (e.parameter)
+    const res = await fetch("/api/lead", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok) {
+      return true;
+    }
+  } catch (apiErr) {
+    console.warn("Internal API route failed, trying direct Google Script fallback...", apiErr);
+  }
+
+  // 2. Fallback: Прямая отправка в Google Apps Script из браузера
+  try {
     const params = new URLSearchParams();
     Object.entries(payload).forEach(([key, val]) => {
       params.append(key, String(val ?? ""));
     });
 
-    // Strategy 1: POST request with URL-encoded form data (no-cors prevents browser 302 CORS false-positives)
     await fetch(GOOGLE_SCRIPT_URL, {
       method: "POST",
       mode: "no-cors",
@@ -39,22 +60,7 @@ export async function submitLead(data: LeadData): Promise<boolean> {
 
     return true;
   } catch (err) {
-    console.warn("Primary submission attempt failed, trying fallback...", err);
-
-    // Fallback: send as JSON payload
-    try {
-      await fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "text/plain;charset=utf-8",
-        },
-        body: JSON.stringify(payload),
-      });
-      return true;
-    } catch (fallbackErr) {
-      console.error("Failed to submit lead to Google Apps Script", fallbackErr);
-      return false;
-    }
+    console.error("Direct lead submission error:", err);
+    return false;
   }
 }

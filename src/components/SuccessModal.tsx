@@ -19,7 +19,7 @@ export function SuccessModal({ isOpen, onClose }: SuccessModalProps) {
       <div className="relative w-full max-w-md bg-[#F4F3EE] rounded-3xl p-7 border border-[#C9CFCC] shadow-2xl text-center space-y-5">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full hover:bg-[#D9E0DD] text-[#161D1C]/60 hover:text-[#161D1C] transition-colors"
+          className="absolute top-4 right-4 p-2 rounded-full hover:bg-[#D9E0DD] text-[#161D1C]/60 hover:text-[#161D1C] transition-colors cursor-pointer"
           aria-label="Close modal"
         >
           <X className="w-5 h-5" />
@@ -30,20 +30,17 @@ export function SuccessModal({ isOpen, onClose }: SuccessModalProps) {
         </div>
 
         <div>
-          <h3 className="font-headline font-bold text-2xl text-[#123D39]">
-            {t.modal.title}
+          <h3 className="font-headline font-bold text-xl sm:text-2xl text-[#123D39]">
+            {t.form.successMessage}
           </h3>
-          <p className="font-body text-sm sm:text-base text-[#161D1C]/80 mt-2 leading-relaxed">
-            {t.modal.text}
-          </p>
         </div>
 
         <div className="pt-2">
           <button
             onClick={onClose}
-            className="w-full py-3.5 px-6 rounded-xl font-headline font-bold text-sm bg-[#123D39] text-[#D9FF43] hover:bg-[#237D73] transition-colors shadow-xs"
+            className="w-full py-3.5 px-6 rounded-xl font-headline font-bold text-sm bg-[#123D39] text-[#D9FF43] hover:bg-[#237D73] transition-colors shadow-xs cursor-pointer"
           >
-            {t.modal.close}
+            OK
           </button>
         </div>
       </div>

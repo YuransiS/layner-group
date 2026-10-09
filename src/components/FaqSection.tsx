@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 export function FaqSection() {
   const { t } = useLanguage();
@@ -16,19 +16,12 @@ export function FaqSection() {
     <section id="faq" className="py-16 sm:py-24 bg-[#D9E0DD]/30 border-t border-[#C9CFCC]/50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#123D39]/10 border border-[#123D39]/20 text-[#123D39] text-xs font-accent tracking-wider font-bold mb-3">
-            <HelpCircle className="w-4 h-4 text-[#237D73]" />
-            <span>ОТВЕТЫ НА ВОПРОСЫ</span>
-          </div>
           <h2 className="font-headline font-bold text-3xl sm:text-4xl lg:text-5xl text-[#161D1C] tracking-tight">
             {t.faq.title}
           </h2>
-          <p className="font-body text-base text-[#161D1C]/70 mt-3">
-            Всё, что важно знать перед началом сотрудничества
-          </p>
         </div>
 
-        {/* Accordion list */}
+        {/* Accordion list strictly from ТЗ */}
         <div className="space-y-4">
           {t.faq.items.map((item, idx) => {
             const isOpen = openIndex === idx;
