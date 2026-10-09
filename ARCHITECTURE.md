@@ -80,7 +80,9 @@ fervent-kepler/
 ---
 
 ## 5. РАЗВЕРТЫВАНИЕ И ССЫЛКИ
-- **Production URL:** [https://yuransis.github.io/layner-group/](https://yuransis.github.io/layner-group/)
+- **Vercel Production URL:** [https://layner-group.vercel.app](https://layner-group.vercel.app)
+- **Альтернативный домен:** [https://fervent-kepler.vercel.app](https://fervent-kepler.vercel.app)
 - **Репозиторий GitHub:** [https://github.com/YuransiS/layner-group](https://github.com/YuransiS/layner-group)
-- **CI/CD:** GitHub Actions (`.github/workflows/deploy.yml`) со сборкой и деплоем на GitHub Pages
+- **CI/CD:** Vercel автоматический деплой при push в ветку `main` + GitHub Actions (`.github/workflows/deploy.yml`)
+
 
