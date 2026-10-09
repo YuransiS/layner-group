@@ -5,7 +5,11 @@ import { useLanguage } from "@/context/LanguageContext";
 import { Language } from "@/data/translations";
 import { Globe, ChevronDown } from "lucide-react";
 
-export function Header() {
+interface HeaderProps {
+  onOpenModal?: () => void;
+}
+
+export function Header({ onOpenModal }: HeaderProps) {
   const { lang, setLang, t } = useLanguage();
 
   const languages: { code: Language; label: string; full: string }[] = [
@@ -14,8 +18,20 @@ export function Header() {
     { code: "ro", label: "RO", full: "🇷🇴 Română" },
   ];
 
+  const handleCtaClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (typeof window !== "undefined" && window.innerWidth < 1024 && onOpenModal) {
+      onOpenModal();
+    } else {
+      const el = document.getElementById("apply");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
-    <header className="sticky top-0 z-50 bg-[#F4F3EE]/95 backdrop-blur-md border-b border-[#C9CFCC]/40 transition-all">
+    <header className="sticky top-0 z-40 bg-[#F4F3EE]/95 backdrop-blur-md border-b border-[#C9CFCC]/40 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo text only */}
@@ -61,7 +77,6 @@ export function Header() {
 
           {/* Right Controls: Touch-Friendly Language Select & CTA */}
           <div className="flex items-center gap-3">
-            {/* Выпадающий список языков с большим тач-таргетом */}
             <div className="relative flex items-center bg-white border border-[#C9CFCC] rounded-xl shadow-2xs hover:border-[#237D73] transition-colors">
               <Globe className="w-4 h-4 text-[#237D73] ml-3 pointer-events-none shrink-0" />
               <select
@@ -79,13 +94,13 @@ export function Header() {
               <ChevronDown className="w-4 h-4 text-[#161D1C]/60 absolute right-2.5 pointer-events-none" />
             </div>
 
-            {/* Desktop Quick CTA */}
-            <a
-              href="#apply"
-              className="hidden sm:inline-flex items-center px-5 py-2.5 rounded-xl font-headline font-semibold text-sm bg-[#123D39] text-[#D9FF43] hover:bg-[#237D73] transition-all shadow-sm hover:shadow"
+            <button
+              type="button"
+              onClick={handleCtaClick}
+              className="hidden sm:inline-flex items-center px-5 py-2.5 rounded-xl font-headline font-semibold text-sm bg-[#123D39] text-[#D9FF43] hover:bg-[#237D73] transition-all shadow-sm cursor-pointer"
             >
               <span>{t.nav.ctaButton}</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>

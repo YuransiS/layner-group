@@ -1,58 +1,33 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
-import { submitLead, validatePhone } from "@/lib/sendLead";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
-import confetti from "canvas-confetti";
+import { ArrowRight } from "lucide-react";
 
 interface HeroSectionProps {
-  onSuccess: () => void;
+  onOpenModal: () => void;
 }
 
-export function HeroSection({ onSuccess }: HeroSectionProps) {
-  const { t, lang } = useLanguage();
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [phoneError, setPhoneError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+export function HeroSection({ onOpenModal }: HeroSectionProps) {
+  const { t } = useLanguage();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleCtaClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    setPhoneError("");
-
-    if (!validatePhone(phone)) {
-      setPhoneError(t.form.phoneError);
-      return;
-    }
-
-    if (!name.trim() || isSubmitting) return;
-
-    setIsSubmitting(true);
-    const ok = await submitLead({
-      name: name.trim(),
-      phone: phone.trim(),
-      form_type: "quick_hero",
-      language: lang,
-    });
-
-    setIsSubmitting(false);
-    if (ok) {
-      setSubmitted(true);
-      confetti({
-        particleCount: 70,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ["#237D73", "#D9FF43", "#123D39"],
-      });
-      onSuccess();
+    // На мобильных устройствах (< 1024px) открываем модальное окно
+    if (typeof window !== "undefined" && window.innerWidth < 1024) {
+      onOpenModal();
+    } else {
+      // На десктопе плавно скроллим к единой нижней форме
+      const el = document.getElementById("apply");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-16 sm:py-16 lg:py-20">
+    <section className="relative overflow-hidden pt-12 pb-20 sm:py-20 lg:py-24">
       {/* 9:16 Фоновое изображение для мобильной версии на всю Hero-секцию */}
       <div className="lg:hidden absolute inset-0 z-0">
         <Image
@@ -63,14 +38,14 @@ export function HeroSection({ onSuccess }: HeroSectionProps) {
           className="object-cover object-top"
           sizes="100vw"
         />
-        {/* Премиальный градиентный оверлей для идеальной читаемости текста и формы */}
-        <div className="absolute inset-0 bg-linear-to-b from-[#123D39]/70 via-[#123D39]/85 to-[#123D39]" />
+        {/* Премиальный градиентный оверлей для идеальной читаемости */}
+        <div className="absolute inset-0 bg-linear-to-b from-[#123D39]/75 via-[#123D39]/85 to-[#123D39]/95" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Левая колонка: Заголовок, подзаголовок и форма */}
-          <div className="lg:col-span-7 space-y-6 sm:space-y-7">
+          {/* Левая колонка: Заголовок, подзаголовок и кнопка перехода к форме */}
+          <div className="lg:col-span-7 space-y-6 sm:space-y-8">
             <h1 className="font-headline font-bold text-3xl sm:text-5xl lg:text-6xl text-white lg:text-[#161D1C] leading-[1.1] tracking-tight">
               {t.hero.title}
             </h1>
@@ -79,71 +54,20 @@ export function HeroSection({ onSuccess }: HeroSectionProps) {
               {t.hero.subtitle}
             </p>
 
-            {/* Быстрая форма захвата */}
-            <div className="p-5 sm:p-7 rounded-2xl bg-white/95 lg:bg-white backdrop-blur-md border border-[#C9CFCC] shadow-xl max-w-xl">
-              {submitted ? (
-                <div className="flex items-start gap-4 p-4 rounded-xl bg-[#237D73]/10 border border-[#237D73]/30">
-                  <CheckCircle2 className="w-7 h-7 text-[#237D73] shrink-0 mt-0.5" />
-                  <div>
-                    <h4 className="font-headline font-bold text-lg text-[#123D39]">
-                      {t.form.successMessage}
-                    </h4>
-                  </div>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div>
-                      <input
-                        type="text"
-                        required
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder={t.hero.namePlaceholder}
-                        className="w-full px-4 py-3.5 rounded-xl bg-[#F4F3EE] border border-[#C9CFCC] text-[#161D1C] placeholder-[#161D1C]/50 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] transition-all"
-                      />
-                    </div>
-                    <div>
-                      <input
-                        type="tel"
-                        required
-                        value={phone}
-                        onChange={(e) => {
-                          setPhone(e.target.value);
-                          if (phoneError) setPhoneError("");
-                        }}
-                        placeholder={t.hero.phonePlaceholder}
-                        className={`w-full px-4 py-3.5 rounded-xl bg-[#F4F3EE] border text-[#161D1C] placeholder-[#161D1C]/50 text-sm focus:outline-none focus:ring-2 transition-all ${
-                          phoneError
-                            ? "border-red-500 focus:ring-red-500"
-                            : "border-[#C9CFCC] focus:ring-[#237D73]"
-                        }`}
-                      />
-                    </div>
-                  </div>
-
-                  {phoneError && (
-                    <p className="text-xs text-red-600 font-medium">
-                      {phoneError}
-                    </p>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full py-4 px-6 rounded-xl font-headline font-bold text-base bg-[#237D73] hover:bg-[#123D39] text-[#D9FF43] transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer disabled:opacity-70 active:scale-[0.99]"
-                  >
-                    <span>
-                      {isSubmitting ? t.hero.loading : t.hero.ctaButton}
-                    </span>
-                    <ArrowRight className="w-5 h-5 text-[#D9FF43]" />
-                  </button>
-                </form>
-              )}
+            {/* Единая CTA кнопка */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={handleCtaClick}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 sm:py-4.5 rounded-xl font-headline font-bold text-base sm:text-lg bg-[#237D73] hover:bg-[#123D39] text-[#D9FF43] transition-all shadow-lg active:scale-98 cursor-pointer"
+              >
+                <span>{t.hero.ctaButton}</span>
+                <ArrowRight className="w-5 h-5 text-[#D9FF43]" />
+              </button>
             </div>
           </div>
 
-          {/* Правая колонка: Десктопное тематическое изображение (скрыто на мобилке, так как на мобилке используется 9:16 фон) */}
+          {/* Правая колонка: Десктопное тематическое фото (скрыто на мобилке, где работает 9:16 фон) */}
           <div className="hidden lg:block lg:col-span-5 relative">
             <div className="relative rounded-3xl overflow-hidden border border-[#C9CFCC] shadow-xl">
               <div className="relative aspect-4/3 sm:aspect-16/11 w-full bg-[#123D39]">

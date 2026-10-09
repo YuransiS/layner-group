@@ -10,20 +10,22 @@ import { StepsSection } from "@/components/StepsSection";
 import { FaqSection } from "@/components/FaqSection";
 import { PartnerForm } from "@/components/PartnerForm";
 import { Footer } from "@/components/Footer";
+import { LeadModal } from "@/components/LeadModal";
 import { SuccessModal } from "@/components/SuccessModal";
 
 export default function Home() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [leadModalOpen, setLeadModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
 
   const handleLeadSuccess = () => {
-    setModalOpen(true);
+    setSuccessModalOpen(true);
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F4F3EE] text-[#161D1C]">
-      <Header />
+      <Header onOpenModal={() => setLeadModalOpen(true)} />
       <main className="flex-1">
-        <HeroSection onSuccess={handleLeadSuccess} />
+        <HeroSection onOpenModal={() => setLeadModalOpen(true)} />
         <WhyUsSection />
         <AboutSection />
         <TargetAudience />
@@ -32,7 +34,19 @@ export default function Home() {
         <PartnerForm onSuccess={handleLeadSuccess} />
       </main>
       <Footer />
-      <SuccessModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
+
+      {/* Модальное окно для мобильной версии с единой формой */}
+      <LeadModal
+        isOpen={leadModalOpen}
+        onClose={() => setLeadModalOpen(false)}
+        onSuccess={handleLeadSuccess}
+      />
+
+      {/* Окно подтверждения успешной отправки */}
+      <SuccessModal
+        isOpen={successModalOpen}
+        onClose={() => setSuccessModalOpen(false)}
+      />
     </div>
   );
 }
