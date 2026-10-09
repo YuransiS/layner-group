@@ -3,7 +3,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://yuransis.github.io/layner-group"),
+  metadataBase: new URL("https://layner-group.vercel.app"),
   title: "Layner Group — Партнёрство для владельцев тентованных машин в Европе",
   description:
     "Ежедневные загрузки по Европе для владельцев тентованных машин. Фиксированная ставка за км + гарантированный километраж каждый месяц. Оплата в евро.",
