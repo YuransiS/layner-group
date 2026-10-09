@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+:root {
+  --background: #F4F3EE;
+  --foreground: #161D1C;
+  --color-primary-teal: #237D73;
+  --color-dark-teal: #123D39;
+  --color-graphite: #161D1C;
+  --color-off-white: #F4F3EE;
+  --color-route-gray: #C9CFCC;
+  --color-soft-gray: #D9E0DD;
+  --color-signal-lime: #D9FF43;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Typography Utility Classes */
+.font-headline {
+  font-family: 'Archivo', sans-serif;
+}
+
+.font-accent {
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+.font-body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F4F3EE;
+}
+::-webkit-scrollbar-thumb {
+  background: #C9CFCC;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #237D73;
+}
