@@ -52,21 +52,35 @@ export function HeroSection({ onSuccess }: HeroSectionProps) {
   };
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-16 lg:pt-16 lg:pb-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative overflow-hidden pt-8 pb-16 sm:py-16 lg:py-20">
+      {/* 9:16 Фоновое изображение для мобильной версии на всю Hero-секцию */}
+      <div className="lg:hidden absolute inset-0 z-0">
+        <Image
+          src="/images/hero-truck-mobile.jpg"
+          alt="Layner Group curtain-side truck"
+          fill
+          priority
+          className="object-cover object-top"
+          sizes="100vw"
+        />
+        {/* Премиальный градиентный оверлей для идеальной читаемости текста и формы */}
+        <div className="absolute inset-0 bg-linear-to-b from-[#123D39]/70 via-[#123D39]/85 to-[#123D39]" />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-          {/* Left Column: Heading, Subtitle & Form strictly from ТЗ */}
-          <div className="lg:col-span-7 space-y-7">
-            <h1 className="font-headline font-bold text-4xl sm:text-5xl lg:text-6xl text-[#161D1C] leading-[1.08] tracking-tight">
+          {/* Левая колонка: Заголовок, подзаголовок и форма */}
+          <div className="lg:col-span-7 space-y-6 sm:space-y-7">
+            <h1 className="font-headline font-bold text-3xl sm:text-5xl lg:text-6xl text-white lg:text-[#161D1C] leading-[1.1] tracking-tight">
               {t.hero.title}
             </h1>
 
-            <p className="font-body text-lg sm:text-xl text-[#161D1C]/80 leading-relaxed max-w-2xl">
+            <p className="font-body text-base sm:text-lg lg:text-xl text-[#F4F3EE]/90 lg:text-[#161D1C]/80 leading-relaxed max-w-2xl">
               {t.hero.subtitle}
             </p>
 
-            {/* Quick Hero Lead Form */}
-            <div className="p-6 sm:p-7 rounded-2xl bg-white border border-[#C9CFCC] shadow-md max-w-xl">
+            {/* Быстрая форма захвата */}
+            <div className="p-5 sm:p-7 rounded-2xl bg-white/95 lg:bg-white backdrop-blur-md border border-[#C9CFCC] shadow-xl max-w-xl">
               {submitted ? (
                 <div className="flex items-start gap-4 p-4 rounded-xl bg-[#237D73]/10 border border-[#237D73]/30">
                   <CheckCircle2 className="w-7 h-7 text-[#237D73] shrink-0 mt-0.5" />
@@ -86,7 +100,7 @@ export function HeroSection({ onSuccess }: HeroSectionProps) {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         placeholder={t.hero.namePlaceholder}
-                        className="w-full px-4 py-3.5 rounded-xl bg-[#F4F3EE] border border-[#C9CFCC] text-[#161D1C] placeholder-[#161D1C]/50 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] focus:border-transparent transition-all"
+                        className="w-full px-4 py-3.5 rounded-xl bg-[#F4F3EE] border border-[#C9CFCC] text-[#161D1C] placeholder-[#161D1C]/50 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] transition-all"
                       />
                     </div>
                     <div>
@@ -117,7 +131,7 @@ export function HeroSection({ onSuccess }: HeroSectionProps) {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-4 px-6 rounded-xl font-headline font-bold text-base bg-[#237D73] hover:bg-[#123D39] text-[#D9FF43] transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer disabled:opacity-70"
+                    className="w-full py-4 px-6 rounded-xl font-headline font-bold text-base bg-[#237D73] hover:bg-[#123D39] text-[#D9FF43] transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer disabled:opacity-70 active:scale-[0.99]"
                   >
                     <span>
                       {isSubmitting ? t.hero.loading : t.hero.ctaButton}
@@ -129,8 +143,8 @@ export function HeroSection({ onSuccess }: HeroSectionProps) {
             </div>
           </div>
 
-          {/* Right Column: Clean Thematic Truck Visual */}
-          <div className="lg:col-span-5 relative">
+          {/* Правая колонка: Десктопное тематическое изображение (скрыто на мобилке, так как на мобилке используется 9:16 фон) */}
+          <div className="hidden lg:block lg:col-span-5 relative">
             <div className="relative rounded-3xl overflow-hidden border border-[#C9CFCC] shadow-xl">
               <div className="relative aspect-4/3 sm:aspect-16/11 w-full bg-[#123D39]">
                 <Image
@@ -139,7 +153,7 @@ export function HeroSection({ onSuccess }: HeroSectionProps) {
                   fill
                   priority
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="50vw"
                 />
               </div>
             </div>
