@@ -25,7 +25,8 @@
 fervent-kepler/
 ├── public/
 │   ├── images/
-│   │   ├── hero-truck.jpg        # Фирменный европейский тентованный трак в горах
+│   │   ├── hero-truck.jpg        # Фирменный европейский тентованный трак (desktop)
+│   │   ├── hero-truck-mobile.jpg # Вертикальный 9:16 трак на всю Hero-секцию (mobile)
 │   │   └── fleet-hub.jpg          # Логистический хаб / диспетчерский центр Layner Group
 │   └── favicon.ico
 ├── src/
