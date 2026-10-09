@@ -1,9 +1,11 @@
 export interface LeadData {
   name: string;
   phone: string;
+  email?: string;
   truck_details?: string;
   departure?: string;
   has_license?: string;
+  company_status?: string;
   form_type: "quick_hero" | "full_application";
   language: string;
 }
