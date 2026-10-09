@@ -76,3 +76,11 @@ fervent-kepler/
 - **Desktop & Mobile:** Адаптивная desktop-first + mobile-first верстка.
 - **Языки:** Автоматический детект через `navigator.language` с мгновенным выбором в шапке (RU / BG / RO).
 - **Минимализм:** Чистая эстетика логистического оператора, строгая геометрия, фирменный акцент Signal Lime (`#D9FF43`) на ключевых CTA кнопках.
+
+---
+
+## 5. РАЗВЕРТЫВАНИЕ И ССЫЛКИ
+- **Production URL:** [https://yuransis.github.io/layner-group/](https://yuransis.github.io/layner-group/)
+- **Репозиторий GitHub:** [https://github.com/YuransiS/layner-group](https://github.com/YuransiS/layner-group)
+- **CI/CD:** GitHub Actions (`.github/workflows/deploy.yml`) со сборкой и деплоем на GitHub Pages
+
