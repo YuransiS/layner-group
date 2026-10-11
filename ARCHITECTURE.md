@@ -42,6 +42,7 @@ fervent-kepler/
 │   │   ├── TargetAudience.tsx    # Кого мы ищем (4 категории)
 │   │   ├── StepsSection.tsx      # 3 шага старта работы
 │   │   ├── FaqSection.tsx        # Аккордеон с 4 вопросами из ТЗ
+│   │   ├── MetaPixel.tsx         # Meta Pixel (ID: 1478474474170852) + Dual-Storage инициализация
 │   │   ├── UnifiedPartnerForm.tsx# Единая форма с жесткой валидацией телефона и отправкой в CRM
 │   │   ├── PartnerForm.tsx       # Нижняя секция лендинга с единой формой
 │   │   ├── LeadModal.tsx         # Модальное окно с единой формой для мобильных устройств
@@ -52,7 +53,8 @@ fervent-kepler/
 │   ├── data/
 │   │   └── translations.ts       # Полный контент на 3-х языках (RU, BG, RO)
 │   └── lib/
-│       ├── sendLead.ts           # Сервис отправки заявок в Google Apps Script
+│       ├── pixel.ts              # Meta Pixel helper + Dual-Storage (localStorage + 30-day Cookie)
+│       ├── sendLead.ts           # Сервис отправки заявок в Google Apps Script + UTMs
 │       └── utils.ts              # cn helper (clsx + twMerge)
 └── ARCHITECTURE.md
 ```

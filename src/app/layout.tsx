@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { MetaPixel } from "@/components/MetaPixel";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://layner-group.vercel.app"),
@@ -26,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className="scroll-smooth">
       <body className="min-h-screen bg-[#F4F3EE] text-[#161D1C] flex flex-col selection:bg-[#237D73] selection:text-white">
+        <MetaPixel />
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>

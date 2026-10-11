@@ -1,3 +1,5 @@
+import { getStoredAttribution } from "./pixel";
+
 export interface LeadData {
   name: string;
   phone: string;
@@ -8,6 +10,14 @@ export interface LeadData {
   company_status?: string;
   form_type: "quick_hero" | "full_application";
   language: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
+  utm_term?: string;
+  fbclid?: string;
+  bw_cid?: string;
+  visitor_uuid?: string;
 }
 
 const GOOGLE_SCRIPT_URL =
@@ -20,7 +30,9 @@ export function validatePhone(phone: string): boolean {
 }
 
 export async function submitLead(data: LeadData): Promise<boolean> {
+  const attribution = typeof window !== "undefined" ? getStoredAttribution() : {};
   const payload = {
+    ...attribution,
     ...data,
     created_at: new Date().toISOString(),
     source: typeof window !== "undefined" ? window.location.href : "direct",

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { submitLead, validatePhone } from "@/lib/sendLead";
+import { trackPixelEvent } from "@/lib/pixel";
 import { Send, CheckCircle2, Check } from "lucide-react";
 import confetti from "canvas-confetti";
 
@@ -74,6 +75,17 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
 
     if (ok) {
       setIsSubmitted(true);
+      trackPixelEvent(
+        "Lead",
+        {
+          content_name: "Freight Partner Application",
+          currency: "EUR",
+        },
+        {
+          phone: phone.trim(),
+          name: name.trim(),
+        }
+      );
       confetti({
         particleCount: 80,
         spread: 60,
