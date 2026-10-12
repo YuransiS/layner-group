@@ -32,10 +32,15 @@ fervent-kepler/
 ├── src/
 │   ├── app/
 │   │   ├── globals.css           # Brand tokens, Google Fonts, reset
-│   │   ├── layout.tsx            # Метаданные, viewport, html lang wrapper
-│   │   └── page.tsx              # Главный лендинг (Hero, Benefits, About, Target, Steps, FAQ, Form, Footer)
+│   │   ├── layout.tsx            # Метаданные, viewport, Meta Pixel в SSR head
+│   │   ├── page.tsx              # Главный лендинг (/)
+│   │   ├── [lang]/
+│   │   │   └── page.tsx          # Локализованные рекламные роуты (/ro, /bg, /ru) со статическим SSR
+│   │   └── api/
+│   │       └── lead/route.ts     # Серверная ручка приема лидов с IP/Geo
 │   ├── components/
-│   │   ├── Header.tsx            # Навигация, логотип, выпадающий список языков RU/BG/RO
+│   │   ├── LandingPage.tsx       # Корневая обертка лендинга с LanguageProvider
+│   │   ├── Header.tsx            # Навигация, логотип, выпадающий список языков RU/BG/RO с роутингом URL
 │   │   ├── HeroSection.tsx       # H1, оффер, единая CTA кнопка (скролл на десктопе / модалка на мобилке)
 │   │   ├── WhyUsSection.tsx      # Преимущества (5 пунктов строго из ТЗ)
 │   │   ├── AboutSection.tsx      # О Layner Group (опыт, рейсы, биржи, география)

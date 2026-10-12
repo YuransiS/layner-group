@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { LanguageProvider } from "@/context/LanguageContext";
 import { MetaPixel } from "@/components/MetaPixel";
 import { FACEBOOK_PIXEL_ID } from "@/lib/pixel";
 
@@ -59,7 +58,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-[#F4F3EE] text-[#161D1C] flex flex-col selection:bg-[#237D73] selection:text-white">
         <MetaPixel />
-        <LanguageProvider>{children}</LanguageProvider>
+        {children}
       </body>
     </html>
   );

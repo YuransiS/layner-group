@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { Language } from "@/data/translations";
 import { Globe, ChevronDown } from "lucide-react";
@@ -10,6 +11,7 @@ interface HeaderProps {
 }
 
 export function Header({ onOpenModal }: HeaderProps) {
+  const router = useRouter();
   const { lang, setLang, t } = useLanguage();
 
   const languages: { code: Language; label: string; full: string }[] = [
@@ -17,6 +19,15 @@ export function Header({ onOpenModal }: HeaderProps) {
     { code: "bg", label: "BG", full: "🇧🇬 Български" },
     { code: "ro", label: "RO", full: "🇷🇴 Română" },
   ];
+
+  const handleLanguageChange = (newLang: Language) => {
+    setLang(newLang);
+    if (typeof window !== "undefined") {
+      const search = window.location.search || "";
+      const targetUrl = newLang === "ru" ? `/${search}` : `/${newLang}${search}`;
+      router.push(targetUrl);
+    }
+  };
 
   const handleCtaClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -35,7 +46,7 @@ export function Header({ onOpenModal }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo text only */}
-          <a href="#" className="flex items-center">
+          <a href={lang === "ru" ? "/" : `/${lang}`} className="flex items-center">
             <span className="font-headline font-bold text-2xl sm:text-3xl tracking-tight text-[#161D1C]">
               LAYNER <span className="text-[#237D73]">GROUP</span>
             </span>
@@ -81,7 +92,7 @@ export function Header({ onOpenModal }: HeaderProps) {
               <Globe className="w-4 h-4 text-[#237D73] ml-3 pointer-events-none shrink-0" />
               <select
                 value={lang}
-                onChange={(e) => setLang(e.target.value as Language)}
+                onChange={(e) => handleLanguageChange(e.target.value as Language)}
                 className="appearance-none bg-transparent pl-2.5 pr-8 py-2.5 sm:py-2 text-xs sm:text-sm font-semibold text-[#161D1C] focus:outline-none cursor-pointer"
                 aria-label="Select language"
               >
