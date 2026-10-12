@@ -15,7 +15,18 @@ export const metadata: Metadata = {
     title: "Layner Group — Партнёрство по грузоперевозкам в Европе",
     description:
       "Фиксированная ставка за км, гарантированный километраж, работа по всей Европе.",
-    images: ["/images/hero-truck.jpg"],
+    images: [
+      {
+        url: "/images/og-preview.jpg?v=2",
+        width: 1024,
+        height: 571,
+        alt: "Layner Group — European Freight Logistics",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/images/og-preview.jpg?v=2"],
   },
 };
 

@@ -13,6 +13,16 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { lang } = await params;
+
+  const ogImages = [
+    {
+      url: "/images/og-preview.jpg?v=2",
+      width: 1024,
+      height: 571,
+      alt: "Layner Group — European Freight Logistics",
+    },
+  ];
+
   if (lang === "ro") {
     return {
       title: "Layner Group — Parteneriat pentru proprietarii de camioane cu prelată în Europa",
@@ -22,7 +32,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         title: "Layner Group — Parteneriat de transport de marfă în Europa",
         description:
           "Tarif fix pe km, kilometraj garantat, curse în toată Europa.",
-        images: ["/images/hero-truck.jpg"],
+        images: ogImages,
+      },
+      twitter: {
+        card: "summary_large_image",
+        images: ["/images/og-preview.jpg?v=2"],
       },
     };
   }
@@ -35,7 +49,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         title: "Layner Group — Партньорство за товарен транспорт в Европа",
         description:
           "Фиксирана ставка на км, гарантиран километраж, работа из цяла Европа.",
-        images: ["/images/hero-truck.jpg"],
+        images: ogImages,
+      },
+      twitter: {
+        card: "summary_large_image",
+        images: ["/images/og-preview.jpg?v=2"],
       },
     };
   }
@@ -47,7 +65,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: "Layner Group — Партнёрство по грузоперевозкам в Европе",
       description:
         "Фиксированная ставка за км, гарантированный километраж, работа по всей Европе.",
-      images: ["/images/hero-truck.jpg"],
+      images: ogImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      images: ["/images/og-preview.jpg?v=2"],
     },
   };
 }
