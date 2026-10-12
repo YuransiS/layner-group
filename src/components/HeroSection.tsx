@@ -56,15 +56,6 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
           {/* Левая колонка: Бейдж, Заголовок, подзаголовок, чипсы и кнопка */}
           <div className="lg:col-span-7 flex flex-col justify-between h-full lg:h-auto lg:space-y-8">
             <div className="space-y-3 sm:space-y-5 pt-2 sm:pt-4 lg:pt-0">
-              {/* Бейдж европейской логистики */}
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#161D1C]/80 lg:bg-[#237D73]/10 border border-white/20 lg:border-[#237D73]/25 backdrop-blur-md shadow-xs">
-                  <span className="w-2 h-2 rounded-full bg-[#D9FF43] lg:bg-[#237D73] animate-pulse" />
-                  <span className="font-headline font-semibold text-xs sm:text-sm tracking-wider uppercase text-[#D9FF43] lg:text-[#237D73]">
-                    {t.hero.badge}
-                  </span>
-                </div>
-              </div>
 
               {/* Заголовок с цветовым акцентом бренда */}
               <h1 className="font-headline font-bold text-3xl sm:text-5xl lg:text-6xl text-white lg:text-[#161D1C] leading-[1.12] tracking-tight drop-shadow-md lg:drop-shadow-none">
