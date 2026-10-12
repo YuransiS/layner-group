@@ -1,4 +1,4 @@
-export type Language = "ru" | "bg" | "ro";
+export type Language = "ro" | "bg";
 
 export interface Translations {
   nav: {
@@ -86,159 +86,158 @@ export interface Translations {
 }
 
 export const translations: Record<Language, Translations> = {
-  ru: {
+  ro: {
     nav: {
-      whyUs: "Почему мы",
-      about: "О Layner Group",
-      whoWeLookFor: "Кого мы ищем",
-      howToStart: "Как начать",
-      faq: "FAQ",
-      ctaButton: "Стать партнёром",
+      whyUs: "De ce noi",
+      about: "Despre Layner Group",
+      whoWeLookFor: "Pe cine căutăm",
+      howToStart: "Cum începeți",
+      faq: "Întrebări frecvente",
+      ctaButton: "Deveniți partener",
     },
     hero: {
-      badge: "Европейская логистика · B2B",
-      title: "Стань партнёром Layner Group",
-      titlePrefix: "Стань партнёром ",
+      badge: "Logistică Europeană · B2B",
+      title: "Deveniți partener Layner Group",
+      titlePrefix: "Deveniți partener ",
       titleHighlight: "Layner Group",
       subtitle:
-        "Ежедневные загрузки по Европе для владельцев тентованных машин. Фиксированная ставка за км + гарантированный километраж каждый месяц.",
+        "Încărcături zilnice în Europa pentru proprietarii de camioane cu prelată. Tarif fix pe km + kilometraj garantat în fiecare lună.",
       tags: [
-        "Фиксированная ставка за км",
-        "Гарантированный километраж",
-        "Оплата в евро",
+        "Tarif fix pe km",
+        "Kilometraj garantat",
+        "Plată în euro",
       ],
-      namePlaceholder: "Имя",
-      phonePlaceholder: "Номер телефона",
-      ctaButton: "Стать партнёром",
-      loading: "Отправка...",
+      namePlaceholder: "Nume",
+      phonePlaceholder: "Număr de telefon",
+      ctaButton: "Deveniți partener",
+      loading: "Se trimite...",
     },
     whyUs: {
-      title: "Почему стоит начать работать с нами?",
+      title: "De ce să începeți colaborarea cu noi?",
       items: [
         {
-          title: "Фиксированная ставка за км",
-          desc: "Одна ставка независимо от загрузки.",
+          title: "Tarif fix pe km",
+          desc: "Un singur tarif, indiferent de gradul de încărcare.",
         },
         {
-          title: "Гарантированный километраж",
-          desc: "Заранее согласовываем объём км на месяц.",
+          title: "Kilometraj garantat",
+          desc: "Stabilim din timp volumul de km pe lună.",
         },
         {
-          title: "Загрузки каждый день",
-          desc: "Свои клиенты + 5+ транспортных бирж.",
+          title: "Încărcături în fiecare zi",
+          desc: "Clienți proprii + 5+ burse de transport.",
         },
         {
-          title: "Маршрут строим мы",
-          desc: "Не нужно самостоятельно искать грузы.",
+          title: "Ruta o construim noi",
+          desc: "Nu trebuie să căutați singuri marfă.",
         },
         {
-          title: "Оплата в евро",
-          desc: "Через 30 дней или факторинг.",
+          title: "Plata în euro",
+          desc: "La 30 de zile sau prin factoring.",
         },
       ],
     },
     about: {
-      title: "О Layner Group",
+      title: "Despre Layner Group",
       desc1:
-        "Layner Group — транспортная компания с 5+ годами опыта и 10 000+ рейсов по Европе.",
+        "Layner Group este o companie de transport cu peste 5 ani de experiență și peste 10 000 de curse în Europa.",
       desc2:
-        "У нас собственные клиенты и 5+ транспортных бирж. Наши логисты ищут загрузки и планируют маршруты, чтобы ваши машины меньше простаивали.",
+        "Avem clienți proprii și 5+ burse de transport. Logisticienii noștri caută încărcături și planifică rutele, astfel încât camioanele dvs. să stea cât mai puțin nefolosite.",
       tags: [
-        "Польская компания",
-        "офис во Франции",
-        "работа по Европе",
-        "оплата в евро",
+        "Companie poloneză",
+        "birou în Franța",
+        "transport în toată Europa",
+        "plată în euro",
       ],
     },
     target: {
-      title: "Кого мы ищем",
-      note: "Работаем как с владельцами одной машины, так и с компаниями с собственным парком.",
+      title: "Pe cine căutăm",
+      note: "Colaborăm atât cu proprietari de un singur camion, cât și cu companii cu flotă proprie.",
       items: [
         {
           icon: "🚛",
-          title: "Владельцев тентованных машин",
+          title: "Proprietari de camioane cu prelată",
         },
         {
           icon: "🇪🇺",
-          title: "Лицензия ЕС + CMR",
+          title: "Licență UE + CMR",
         },
         {
           icon: "🏢",
-          title: "Собственная транспортная компания",
+          title: "Firmă de transport proprie",
         },
         {
           icon: "⏱",
-          title: "Соблюдение сроков",
+          title: "Respectarea termenelor",
         },
       ],
     },
     steps: {
-      title: "Как начать",
+      title: "Cum începeți",
       items: [
         {
           num: "01",
-          title: "Оставьте заявку",
-          desc: "1 минута на заполнение формы.",
+          title: "Trimiteți cererea",
+          desc: "1 minut pentru completarea formularului.",
         },
         {
           num: "02",
-          title: "Получите условия",
-          desc: "Ставка, километраж и оплата в WhatsApp.",
+          title: "Primiți condițiile",
+          desc: "Tarif, kilometraj și plată pe WhatsApp.",
         },
         {
           num: "03",
-          title: "Получите загрузку",
-          desc: "Машина готова, начинаем искать груз.",
+          title: "Primiți încărcătura",
+          desc: "Camionul este pregătit, începem să căutăm marfă.",
         },
       ],
-      ctaButton: "Стать партнёром Layner Group",
+      ctaButton: "Deveniți partener Layner Group",
     },
     faq: {
-      title: "FAQ",
+      title: "Întrebări frecvente",
       items: [
         {
-          q: "Когда первый груз?",
-          a: "Обычно от 3 дней до 2 недель.",
+          q: "Când va fi prima încărcătură?",
+          a: "De obicei între 3 zile și 2 săptămâni.",
         },
         {
-          q: "Платите за порожний пробег?",
-          a: "Да. Каждый километр оплачивается по одной ставке.",
+          q: "Plătiți kilometrii parcurși în gol?",
+          a: "Da. Fiecare kilometru se plătește la același tarif.",
         },
         {
-          q: "Когда я получу деньги?",
-          a: "Через 30 дней. Факторинг — на следующий день. Быстрая оплата через 3 дня, комиссия 7%.",
+          q: "Când primesc banii?",
+          a: "După 30 de zile. Factoring – a doua zi. Plată rapidă în 3 zile, comision 7%.",
         },
         {
-          q: "Не говорю по-польски или английски — проблема?",
-          a: "Нет. Общаемся в WhatsApp на вашем языке.",
+          q: "Nu vorbesc poloneză sau engleză – este o problemă?",
+          a: "Nu. Comunicăm pe WhatsApp în limba dvs.",
         },
       ],
     },
     form: {
-      title: "Станьте партнёром Layner Group",
-      subtitle: "Оставьте заявку — менеджер свяжется с вами в WhatsApp.",
-      nameLabel: "Имя",
-      namePlaceholder: "Имя",
-      truckLabel: "Количество тентованных машин и вес",
-      truckPlaceholder: "Количество тентованных машин и вес",
-      departureLabel: "Откуда выезжаете",
-      departurePlaceholder: "Откуда выезжаете",
-      phoneLabel: "Телефон / WhatsApp",
-      phonePlaceholder: "Телефон / WhatsApp",
-      licenseLabel: "Есть лицензия ЕС и CMR?",
-      licenseYes: "Да",
-      licenseNo: "Нет / В процессе",
-      consentText: "Согласен на обработку персональных данных",
-      submitButton: "Отправить заявку",
-      submitting: "Отправка...",
-      successMessage:
-        "Готово! Напишем вам в WhatsApp в течение рабочего дня.",
-      phoneError: "Пожалуйста, введите корректный номер телефона (от 8 цифр)",
-      consentError: "Необходимо согласие на обработку персональных данных",
+      title: "Deveniți partener Layner Group",
+      subtitle: "Lăsați o cerere – un manager vă va contacta pe WhatsApp.",
+      nameLabel: "Nume",
+      namePlaceholder: "Nume",
+      truckLabel: "Numărul de camioane cu prelată și tonajul",
+      truckPlaceholder: "Numărul de camioane cu prelată și tonajul",
+      departureLabel: "Din ce loc plecați",
+      departurePlaceholder: "Din ce loc plecați",
+      phoneLabel: "Telefon / WhatsApp",
+      phonePlaceholder: "Telefon / WhatsApp",
+      licenseLabel: "Aveți licență UE și CMR?",
+      licenseYes: "Da",
+      licenseNo: "Nu / În curs",
+      consentText: "Sunt de acord cu prelucrarea datelor cu caracter personal",
+      submitButton: "Trimiteți cererea",
+      submitting: "Se trimite...",
+      successMessage: "Gata! Vă scriem pe WhatsApp în cursul zilei lucrătoare.",
+      phoneError: "Vă rugăm să introduceți un număr de telefon valid (minim 8 cifre)",
+      consentError: "Este necesar acordul pentru prelucrarea datelor cu caracter personal",
     },
     footer: {
-      rights: "Layner Group. Все права защищены.",
-      location: "Польская компания · офис во Франции · работа по Европе · оплата в евро",
+      rights: "Layner Group. Toate drepturile rezervate.",
+      location: "Companie poloneză · birou în Franța · transport în toată Europa · plată în euro",
     },
   },
 
@@ -395,161 +394,6 @@ export const translations: Record<Language, Translations> = {
     footer: {
       rights: "Layner Group. Всички права запазени.",
       location: "Полска компания · офис във Франция · работа из цяла Европа · плащане в евро",
-    },
-  },
-
-  ro: {
-    nav: {
-      whyUs: "De ce noi",
-      about: "Despre Layner Group",
-      whoWeLookFor: "Pe cine căutăm",
-      howToStart: "Cum începeți",
-      faq: "Întrebări frecvente",
-      ctaButton: "Deveniți partener",
-    },
-    hero: {
-      badge: "Logistică Europeană · B2B",
-      title: "Deveniți partener Layner Group",
-      titlePrefix: "Deveniți partener ",
-      titleHighlight: "Layner Group",
-      subtitle:
-        "Încărcături zilnice în Europa pentru proprietarii de camioane cu prelată. Tarif fix pe km + kilometraj garantat în fiecare lună.",
-      tags: [
-        "Tarif fix pe km",
-        "Kilometraj garantat",
-        "Plată în euro",
-      ],
-      namePlaceholder: "Nume",
-      phonePlaceholder: "Număr de telefon",
-      ctaButton: "Deveniți partener",
-      loading: "Se trimite...",
-    },
-    whyUs: {
-      title: "De ce să începeți colaborarea cu noi?",
-      items: [
-        {
-          title: "Tarif fix pe km",
-          desc: "Un singur tarif, indiferent de gradul de încărcare.",
-        },
-        {
-          title: "Kilometraj garantat",
-          desc: "Stabilim din timp volumul de km pe lună.",
-        },
-        {
-          title: "Încărcături în fiecare zi",
-          desc: "Clienți proprii + 5+ burse de transport.",
-        },
-        {
-          title: "Ruta o construim noi",
-          desc: "Nu trebuie să căutați singuri marfă.",
-        },
-        {
-          title: "Plata în euro",
-          desc: "La 30 de zile sau prin factoring.",
-        },
-      ],
-    },
-    about: {
-      title: "Despre Layner Group",
-      desc1:
-        "Layner Group este o companie de transport cu peste 5 ani de experiență și peste 10 000 de curse în Europa.",
-      desc2:
-        "Avem clienți proprii și 5+ burse de transport. Logisticienii noștri caută încărcături și planifică rutele, astfel încât camioanele dvs. să stea cât mai puțin nefolosite.",
-      tags: [
-        "Companie poloneză",
-        "birou în Franța",
-        "transport în toată Europa",
-        "plată în euro",
-      ],
-    },
-    target: {
-      title: "Pe cine căutăm",
-      note: "Colaborăm atât cu proprietari de un singur camion, cât și cu companii cu flotă proprie.",
-      items: [
-        {
-          icon: "🚛",
-          title: "Proprietari de camioane cu prelată",
-        },
-        {
-          icon: "🇪🇺",
-          title: "Licență UE + CMR",
-        },
-        {
-          icon: "🏢",
-          title: "Firmă de transport proprie",
-        },
-        {
-          icon: "⏱",
-          title: "Respectarea termenelor",
-        },
-      ],
-    },
-    steps: {
-      title: "Cum începeți",
-      items: [
-        {
-          num: "01",
-          title: "Trimiteți cererea",
-          desc: "1 minut pentru completarea formularului.",
-        },
-        {
-          num: "02",
-          title: "Primiți condițiile",
-          desc: "Tarif, kilometraj și plată pe WhatsApp.",
-        },
-        {
-          num: "03",
-          title: "Primiți încărcătura",
-          desc: "Camionul este pregătit, începem să căutăm marfă.",
-        },
-      ],
-      ctaButton: "Deveniți partener Layner Group",
-    },
-    faq: {
-      title: "Întrebări frecvente",
-      items: [
-        {
-          q: "Când va fi prima încărcătură?",
-          a: "De obicei între 3 zile și 2 săptămâni.",
-        },
-        {
-          q: "Plătiți kilometrii parcurși în gol?",
-          a: "Da. Fiecare kilometru se plătește la același tarif.",
-        },
-        {
-          q: "Când primesc banii?",
-          a: "După 30 de zile. Factoring – a doua zi. Plată rapidă în 3 zile, comision 7%.",
-        },
-        {
-          q: "Nu vorbesc poloneză sau engleză – este o problemă?",
-          a: "Nu. Comunicăm pe WhatsApp în limba dvs.",
-        },
-      ],
-    },
-    form: {
-      title: "Deveniți partener Layner Group",
-      subtitle: "Lăsați o cerere – un manager vă va contacta pe WhatsApp.",
-      nameLabel: "Nume",
-      namePlaceholder: "Nume",
-      truckLabel: "Numărul de camioane cu prelată și tonajul",
-      truckPlaceholder: "Numărul de camioane cu prelată și tonajul",
-      departureLabel: "Din ce loc plecați",
-      departurePlaceholder: "Din ce loc plecați",
-      phoneLabel: "Telefon / WhatsApp",
-      phonePlaceholder: "Telefon / WhatsApp",
-      licenseLabel: "Aveți licență UE și CMR?",
-      licenseYes: "Da",
-      licenseNo: "Nu / În curs",
-      consentText: "Sunt de acord cu prelucrarea datelor cu caracter personal",
-      submitButton: "Trimiteți cererea",
-      submitting: "Se trimite...",
-      successMessage: "Gata! Vă scriem pe WhatsApp în cursul zilei lucrătoare.",
-      phoneError: "Vă rugăm să introduceți un număr de telefon valid (minim 8 cifre)",
-      consentError: "Este necesar acordul pentru prelucrarea datelor cu caracter personal",
-    },
-    footer: {
-      rights: "Layner Group. Toate drepturile rezervate.",
-      location: "Companie poloneză · birou în Franța · transport în toată Europa · plată în euro",
     },
   },
 };

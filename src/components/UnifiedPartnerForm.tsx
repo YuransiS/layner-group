@@ -19,7 +19,7 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
   const [trucks, setTrucks] = useState("");
   const [departure, setDeparture] = useState("");
   const [phone, setPhone] = useState("");
-  const [hasLicense, setHasLicense] = useState("Да");
+  const [hasLicense, setHasLicense] = useState<"yes" | "no">("yes");
   const [consent, setConsent] = useState(false);
   const [phoneError, setPhoneError] = useState("");
   const [consentError, setConsentError] = useState("");
@@ -66,7 +66,7 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
       phone: phone.trim(),
       truck_details: trucks.trim(),
       departure: departure.trim(),
-      has_license: hasLicense === "Да" ? "Да" : "Нет",
+      has_license: hasLicense === "yes" ? (lang === "ro" ? "Da" : "Да") : (lang === "ro" ? "Nu" : "Не"),
       form_type: "full_application",
       language: lang,
     });
@@ -198,7 +198,7 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
         <div className="grid grid-cols-2 gap-3">
           <label
             className={`flex items-center gap-2.5 p-3 rounded-xl border cursor-pointer transition-all ${
-              hasLicense === "Да"
+              hasLicense === "yes"
                 ? "bg-[#237D73]/10 border-[#237D73] text-[#123D39] font-medium"
                 : "bg-white border-[#C9CFCC] text-[#161D1C]/80"
             }`}
@@ -206,9 +206,9 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
             <input
               type="radio"
               name={isModal ? "license_modal" : "license_inline"}
-              value="Да"
-              checked={hasLicense === "Да"}
-              onChange={(e) => setHasLicense(e.target.value)}
+              value="yes"
+              checked={hasLicense === "yes"}
+              onChange={() => setHasLicense("yes")}
               className="accent-[#237D73]"
             />
             <span className="text-sm">{t.form.licenseYes}</span>
@@ -216,7 +216,7 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
 
           <label
             className={`flex items-center gap-2.5 p-3 rounded-xl border cursor-pointer transition-all ${
-              hasLicense === "Нет"
+              hasLicense === "no"
                 ? "bg-[#237D73]/10 border-[#237D73] text-[#123D39] font-medium"
                 : "bg-white border-[#C9CFCC] text-[#161D1C]/80"
             }`}
@@ -224,9 +224,9 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
             <input
               type="radio"
               name={isModal ? "license_modal" : "license_inline"}
-              value="Нет"
-              checked={hasLicense === "Нет"}
-              onChange={(e) => setHasLicense(e.target.value)}
+              value="no"
+              checked={hasLicense === "no"}
+              onChange={() => setHasLicense("no")}
               className="accent-[#237D73]"
             />
             <span className="text-sm">{t.form.licenseNo}</span>

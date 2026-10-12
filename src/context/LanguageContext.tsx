@@ -14,27 +14,25 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 );
 
 export function detectUserLanguage(initial?: Language): Language {
-  if (initial && (initial === "ru" || initial === "bg" || initial === "ro")) {
+  if (initial && (initial === "ro" || initial === "bg")) {
     return initial;
   }
-  if (typeof window === "undefined") return "ru";
+  if (typeof window === "undefined") return "ro";
 
-  // 1. URL Path (/ro, /bg, /ru) — высший приоритет для рекламного трафика
+  // 1. URL Path (/bg, /ro)
   const pathname = window.location.pathname.toLowerCase();
-  if (pathname === "/ro" || pathname.startsWith("/ro/")) return "ro";
   if (pathname === "/bg" || pathname.startsWith("/bg/")) return "bg";
-  if (pathname === "/ru" || pathname.startsWith("/ru/")) return "ru";
+  if (pathname === "/ro" || pathname.startsWith("/ro/")) return "ro";
 
-  // 2. Query параметр ?lang=ro
+  // 2. Query параметр ?lang=bg или ?lang=ro
   const params = new URLSearchParams(window.location.search);
   const qLang = params.get("lang")?.toLowerCase();
-  if (qLang === "ro" || qLang === "bg" || qLang === "ru") {
-    return qLang as Language;
-  }
+  if (qLang === "bg") return "bg";
+  if (qLang === "ro") return "ro";
 
   // 3. Сохраненный выбор в localStorage
   const saved = localStorage.getItem("layner_lang") as Language | null;
-  if (saved && (saved === "ru" || saved === "bg" || saved === "ro")) {
+  if (saved && (saved === "ro" || saved === "bg")) {
     return saved;
   }
 
@@ -46,11 +44,9 @@ export function detectUserLanguage(initial?: Language): Language {
   if (browserLang.startsWith("bg")) {
     return "bg";
   }
-  if (browserLang.startsWith("ro") || browserLang.startsWith("mo")) {
-    return "ro";
-  }
 
-  return "ru";
+  // Основной язык по умолчанию — румынский (ro)
+  return "ro";
 }
 
 export function LanguageProvider({
@@ -83,7 +79,7 @@ export function LanguageProvider({
     }
   };
 
-  const t = translations[lang] || translations.ru;
+  const t = translations[lang] || translations.ro;
 
   return (
     <LanguageContext.Provider value={{ lang, setLang, t }}>

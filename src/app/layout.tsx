@@ -5,16 +5,16 @@ import { FACEBOOK_PIXEL_ID } from "@/lib/pixel";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://layner-group.vercel.app"),
-  title: "Layner Group — Партнёрство для владельцев тентованных машин в Европе",
+  title: "Layner Group — Parteneriat pentru proprietarii de camioane cu prelată în Europa",
   description:
-    "Ежедневные загрузки по Европе для владельцев тентованных машин. Фиксированная ставка за км + гарантированный километраж каждый месяц. Оплата в евро.",
+    "Încărcături zilnice în Europa pentru proprietarii de camioane cu prelată. Tarif fix pe km + kilometraj garantat în fiecare lună. Plată în euro.",
   icons: {
     icon: "/favicon.ico",
   },
   openGraph: {
-    title: "Layner Group — Партнёрство по грузоперевозкам в Европе",
+    title: "Layner Group — Parteneriat de transport de marfă în Europa",
     description:
-      "Фиксированная ставка за км, гарантированный километраж, работа по всей Европе.",
+      "Tarif fix pe km, kilometraj garantat, curse în toată Europa.",
     images: [
       {
         url: "/images/og-preview.jpg?v=2",
@@ -36,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ru" className="scroll-smooth">
+    <html lang="ro" className="scroll-smooth">
       <head>
         {/* Meta Pixel Code */}
         <script

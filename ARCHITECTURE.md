@@ -35,12 +35,12 @@ fervent-kepler/
 │   │   ├── layout.tsx            # Метаданные, viewport, Meta Pixel в SSR head
 │   │   ├── page.tsx              # Главный лендинг (/)
 │   │   ├── [lang]/
-│   │   │   └── page.tsx          # Локализованные рекламные роуты (/ro, /bg, /ru) со статическим SSR
+│   │   │   └── page.tsx          # Локализованные рекламные роуты (/ro, /bg) со статическим SSR
 │   │   └── api/
 │   │       └── lead/route.ts     # Серверная ручка приема лидов с IP/Geo
 │   ├── components/
-│   │   ├── LandingPage.tsx       # Корневая обертка лендинга с LanguageProvider
-│   │   ├── Header.tsx            # Навигация, логотип, выпадающий список языков RU/BG/RO с роутингом URL
+│   │   ├── LandingPage.tsx       # Корневая обертка лендинга с LanguageProvider (дефолт RO)
+│   │   ├── Header.tsx            # Навигация, логотип, выпадающий список языков RO/BG с роутингом URL
 │   │   ├── HeroSection.tsx       # H1, оффер, единая CTA кнопка (скролл на десктопе / модалка на мобилке)
 │   │   ├── WhyUsSection.tsx      # Преимущества (5 пунктов строго из ТЗ)
 │   │   ├── AboutSection.tsx      # О Layner Group (опыт, рейсы, биржи, география)
@@ -54,9 +54,9 @@ fervent-kepler/
 │   │   ├── SuccessModal.tsx      # Модальное окно подтверждения заявки
 │   │   └── Footer.tsx            # Минималистичный футер
 │   ├── context/
-│   │   └── LanguageContext.tsx   # Автоопределение языка устройства (RU/BG/RO) + ручной свитчер
+│   │   └── LanguageContext.tsx   # Языковой контекст (основной RO + переключатель на BG)
 │   ├── data/
-│   │   └── translations.ts       # Полный контент на 3-х языках (RU, BG, RO)
+│   │   └── translations.ts       # Контент на 2-х языках (RO - основной, BG)
 │   └── lib/
 │       ├── pixel.ts              # Meta Pixel helper + Dual-Storage (localStorage + 30-day Cookie)
 │       ├── sendLead.ts           # Сервис отправки заявок в Google Apps Script + UTMs

@@ -15,16 +15,15 @@ export function Header({ onOpenModal }: HeaderProps) {
   const { lang, setLang, t } = useLanguage();
 
   const languages: { code: Language; label: string; full: string }[] = [
-    { code: "ru", label: "RU", full: "🇷🇺 Русский" },
-    { code: "bg", label: "BG", full: "🇧🇬 Български" },
     { code: "ro", label: "RO", full: "🇷🇴 Română" },
+    { code: "bg", label: "BG", full: "🇧🇬 Български" },
   ];
 
   const handleLanguageChange = (newLang: Language) => {
     setLang(newLang);
     if (typeof window !== "undefined") {
       const search = window.location.search || "";
-      const targetUrl = newLang === "ru" ? `/${search}` : `/${newLang}${search}`;
+      const targetUrl = newLang === "ro" ? `/${search}` : `/${newLang}${search}`;
       router.push(targetUrl);
     }
   };
@@ -46,7 +45,7 @@ export function Header({ onOpenModal }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo text only */}
-          <a href={lang === "ru" ? "/" : `/${lang}`} className="flex items-center">
+          <a href={lang === "ro" ? "/" : `/${lang}`} className="flex items-center">
             <span className="font-headline font-bold text-2xl sm:text-3xl tracking-tight text-[#161D1C]">
               LAYNER <span className="text-[#237D73]">GROUP</span>
             </span>

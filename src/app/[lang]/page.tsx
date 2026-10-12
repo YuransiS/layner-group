@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { LandingPage } from "@/components/LandingPage";
 import { Language } from "@/data/translations";
 
 export function generateStaticParams() {
-  return [{ lang: "ro" }, { lang: "bg" }, { lang: "ru" }];
+  return [{ lang: "ro" }, { lang: "bg" }];
 }
 
 interface PageProps {
@@ -23,23 +23,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
   ];
 
-  if (lang === "ro") {
-    return {
-      title: "Layner Group — Parteneriat pentru proprietarii de camioane cu prelată în Europa",
-      description:
-        "Încărcături zilnice în Europa pentru proprietarii de camioane cu prelată. Tarif fix pe km + kilometraj garantat în fiecare lună. Plată în euro.",
-      openGraph: {
-        title: "Layner Group — Parteneriat de transport de marfă în Europa",
-        description:
-          "Tarif fix pe km, kilometraj garantat, curse în toată Europa.",
-        images: ogImages,
-      },
-      twitter: {
-        card: "summary_large_image",
-        images: ["/images/og-preview.jpg?v=2"],
-      },
-    };
-  }
   if (lang === "bg") {
     return {
       title: "Layner Group — Партньорство за собственици на тентови камиони в Европа",
@@ -57,14 +40,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       },
     };
   }
+
+  // Default is Romanian (ro)
   return {
-    title: "Layner Group — Партнёрство для владельцев тентованных машин в Европе",
+    title: "Layner Group — Parteneriat pentru proprietarii de camioane cu prelată în Europa",
     description:
-      "Ежедневные загрузки по Европе для владельцев тентованных машин. Фиксированная ставка за км + гарантированный километраж каждый месяц. Оплата в евро.",
+      "Încărcături zilnice în Europa pentru proprietarii de camioane cu prelată. Tarif fix pe km + kilometraj garantat în fiecare lună. Plată în euro.",
     openGraph: {
-      title: "Layner Group — Партнёрство по грузоперевозкам в Европе",
+      title: "Layner Group — Parteneriat de transport de marfă în Europa",
       description:
-        "Фиксированная ставка за км, гарантированный километраж, работа по всей Европе.",
+        "Tarif fix pe km, kilometraj garantat, curse în toată Europa.",
       images: ogImages,
     },
     twitter: {
@@ -77,7 +62,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function LangPage({ params }: PageProps) {
   const { lang } = await params;
 
-  if (lang !== "ro" && lang !== "bg" && lang !== "ru") {
+  if (lang === "ru") {
+    redirect("/");
+  }
+
+  if (lang !== "ro" && lang !== "bg") {
     notFound();
   }
 
