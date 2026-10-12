@@ -10,8 +10,12 @@ export interface Translations {
     ctaButton: string;
   };
   hero: {
+    badge: string;
     title: string;
+    titlePrefix: string;
+    titleHighlight: string;
     subtitle: string;
+    tags: string[];
     namePlaceholder: string;
     phonePlaceholder: string;
     ctaButton: string;
@@ -92,9 +96,17 @@ export const translations: Record<Language, Translations> = {
       ctaButton: "Стать партнёром",
     },
     hero: {
+      badge: "Европейская логистика · B2B",
       title: "Стань партнёром Layner Group",
+      titlePrefix: "Стань партнёром ",
+      titleHighlight: "Layner Group",
       subtitle:
         "Ежедневные загрузки по Европе для владельцев тентованных машин. Фиксированная ставка за км + гарантированный километраж каждый месяц.",
+      tags: [
+        "Фиксированная ставка за км",
+        "Гарантированный километраж",
+        "Оплата в евро",
+      ],
       namePlaceholder: "Имя",
       phonePlaceholder: "Номер телефона",
       ctaButton: "Стать партнёром",
@@ -240,9 +252,17 @@ export const translations: Record<Language, Translations> = {
       ctaButton: "Станете партньор",
     },
     hero: {
+      badge: "Европейска логистика · B2B",
       title: "Станете партньор на Layner Group",
+      titlePrefix: "Станете партньор на ",
+      titleHighlight: "Layner Group",
       subtitle:
         "Ежедневни товари из цяла Европа за собственици на тентови камиони. Фиксирана ставка на км + гарантиран километраж всеки месец.",
+      tags: [
+        "Фиксирана ставка на км",
+        "Гарантиран километраж",
+        "Плащане в евро",
+      ],
       namePlaceholder: "Име",
       phonePlaceholder: "Телефонен номер",
       ctaButton: "Станете партньор",
@@ -388,9 +408,17 @@ export const translations: Record<Language, Translations> = {
       ctaButton: "Deveniți partener",
     },
     hero: {
+      badge: "Logistică Europeană · B2B",
       title: "Deveniți partener Layner Group",
+      titlePrefix: "Deveniți partener ",
+      titleHighlight: "Layner Group",
       subtitle:
         "Încărcături zilnice în Europa pentru proprietarii de camioane cu prelată. Tarif fix pe km + kilometraj garantat în fiecare lună.",
+      tags: [
+        "Tarif fix pe km",
+        "Kilometraj garantat",
+        "Plată în euro",
+      ],
       namePlaceholder: "Nume",
       phonePlaceholder: "Număr de telefon",
       ctaButton: "Deveniți partener",

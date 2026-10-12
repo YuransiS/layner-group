@@ -38,26 +38,63 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
           className="object-cover object-[center_65%]"
           sizes="100vw"
         />
-        {/* Прозрачный градиент: затемнение сверху для текста и снизу для кнопки, середина прозрачная для яркого отображения трака */}
-        <div className="absolute inset-0 bg-linear-to-b from-[#161D1C]/85 via-transparent to-[#123D39]/95" />
+        {/* Продуманный градиент для максимальной читаемости текста и сохранения чистого обзора фургона:
+            - 0% - 35%: глубокое затемнение графитом (#161D1C), устраняющее блики от белых облаков и снежных гор
+            - 45% - 72%: полупрозрачное окно, полностью открывающее фургон и альпийскую дорогу
+            - 75% - 100%: плавный уход в темный тил (#123D39) под кнопку действия */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(22, 29, 28, 0.95) 0%, rgba(22, 29, 28, 0.90) 30%, rgba(22, 29, 28, 0.48) 45%, rgba(22, 29, 28, 0.05) 58%, rgba(18, 61, 57, 0.15) 72%, rgba(18, 61, 57, 0.96) 100%)",
+          }}
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full flex-1 flex flex-col justify-between lg:block py-6 sm:py-10 lg:py-0">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center flex-1">
-          {/* Левая колонка: Заголовок, подзаголовок и кнопка */}
+          {/* Левая колонка: Бейдж, Заголовок, подзаголовок, чипсы и кнопка */}
           <div className="lg:col-span-7 flex flex-col justify-between h-full lg:h-auto lg:space-y-8">
-            <div className="space-y-4 sm:space-y-6 pt-2 sm:pt-4 lg:pt-0">
-              <h1 className="font-headline font-bold text-3xl sm:text-5xl lg:text-6xl text-white lg:text-[#161D1C] leading-[1.12] tracking-tight drop-shadow-xs lg:drop-shadow-none">
-                {t.hero.title}
+            <div className="space-y-3 sm:space-y-5 pt-2 sm:pt-4 lg:pt-0">
+              {/* Бейдж европейской логистики */}
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#161D1C]/80 lg:bg-[#237D73]/10 border border-white/20 lg:border-[#237D73]/25 backdrop-blur-md shadow-xs">
+                  <span className="w-2 h-2 rounded-full bg-[#D9FF43] lg:bg-[#237D73] animate-pulse" />
+                  <span className="font-headline font-semibold text-xs sm:text-sm tracking-wider uppercase text-[#D9FF43] lg:text-[#237D73]">
+                    {t.hero.badge}
+                  </span>
+                </div>
+              </div>
+
+              {/* Заголовок с цветовым акцентом бренда */}
+              <h1 className="font-headline font-bold text-3xl sm:text-5xl lg:text-6xl text-white lg:text-[#161D1C] leading-[1.12] tracking-tight drop-shadow-md lg:drop-shadow-none">
+                {t.hero.titlePrefix}
+                <span className="text-[#D9FF43] lg:text-[#237D73] block sm:inline">
+                  {t.hero.titleHighlight}
+                </span>
               </h1>
 
-              <p className="font-body text-base sm:text-lg lg:text-xl text-[#F4F3EE] lg:text-[#161D1C]/80 leading-relaxed max-w-2xl drop-shadow-xs lg:drop-shadow-none">
+              {/* Подзаголовок с повышенной читаемостью */}
+              <p className="font-body text-base sm:text-lg lg:text-xl text-[#F4F3EE]/95 lg:text-[#161D1C]/80 leading-relaxed max-w-2xl drop-shadow-sm lg:drop-shadow-none">
                 {t.hero.subtitle}
               </p>
+
+              {/* Ключевые акцентные преимущества в виде компактных тегов */}
+              <div className="flex flex-wrap gap-2 pt-1 sm:pt-2">
+                {t.hero.tags.map((tag, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium bg-[#161D1C]/75 lg:bg-white/90 text-white lg:text-[#161D1C] border border-white/15 lg:border-[#C9CFCC] backdrop-blur-md shadow-xs"
+                  >
+                    <span className="text-[#D9FF43] lg:text-[#237D73] font-bold">✓</span>
+                    <span>{tag}</span>
+                  </span>
+                ))}
+              </div>
             </div>
 
             {/* Единая CTA кнопка */}
-            <div className="pt-8 pb-4 sm:pb-0 lg:pt-4">
+            <div className="pt-6 pb-4 sm:pb-0 lg:pt-4">
               <button
                 type="button"
                 onClick={handleCtaClick}
