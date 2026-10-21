@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { submitLead, validatePhone } from "@/lib/sendLead";
 import { trackPixelEvent } from "@/lib/pixel";
-import { Send, CheckCircle2, Check } from "lucide-react";
+import { Send, CheckCircle2, Check, Loader2, AlertCircle } from "lucide-react";
 import confetti from "canvas-confetti";
 
 interface UnifiedPartnerFormProps {
@@ -20,23 +20,33 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
   const [departure, setDeparture] = useState("");
   const [phone, setPhone] = useState("");
   const [hasLicense, setHasLicense] = useState<"yes" | "no">("yes");
-  const [consent, setConsent] = useState(false);
+  // Согласие активно по умолчанию для устранения барьера конверсии
+  const [consent, setConsent] = useState(true);
+  const [nameError, setNameError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [consentError, setConsentError] = useState("");
+  const [submitError, setSubmitError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // Строгая фильтрация ввода телефона: только цифры, +, пробел, дефис, скобки
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const phoneInputRef = useRef<HTMLInputElement>(null);
+
+  // Мягкая фильтрация ввода телефона:
+  // цифры, +, пробелы, дефисы, скобки, слэш и точки (стандартные форматы 088/123456, +359 ...)
   const handlePhoneChange = (val: string) => {
-    const filtered = val.replace(/[^0-9+\s\-()]/g, "");
+    const filtered = val.replace(/[^0-9+\s\-()./]/g, "");
     setPhone(filtered);
     if (phoneError) {
       setPhoneError("");
     }
+    if (submitError) {
+      setSubmitError("");
+    }
   };
 
   const handlePhoneBlur = () => {
-    if (phone && !validatePhone(phone)) {
+    if (phone.trim() && !validatePhone(phone)) {
       setPhoneError(t.form.phoneError);
     }
   };
@@ -45,11 +55,20 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setNameError("");
     setPhoneError("");
     setConsentError("");
+    setSubmitError("");
+
+    if (!name.trim()) {
+      setNameError(t.form.nameLabel);
+      nameInputRef.current?.focus();
+      return;
+    }
 
     if (!validatePhone(phone)) {
       setPhoneError(t.form.phoneError);
+      phoneInputRef.current?.focus();
       return;
     }
 
@@ -58,48 +77,65 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
       return;
     }
 
-    if (!name.trim() || isSubmitting) return;
+    if (isSubmitting) return;
 
     setIsSubmitting(true);
-    const ok = await submitLead({
-      name: name.trim(),
-      phone: phone.trim(),
-      truck_details: trucks.trim(),
-      departure: departure.trim(),
-      has_license: hasLicense === "yes" ? (lang === "ro" ? "Da" : "Да") : (lang === "ro" ? "Nu" : "Не"),
-      form_type: "full_application",
-      language: lang,
-    });
 
-    setIsSubmitting(false);
-
-    if (ok) {
-      setIsSubmitted(true);
-      trackPixelEvent(
-        "Lead",
-        {
-          content_name: "Freight Partner Application",
-          currency: "EUR",
-        },
-        {
-          phone: phone.trim(),
-          name: name.trim(),
-        }
-      );
-      confetti({
-        particleCount: 80,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ["#237D73", "#D9FF43", "#123D39"],
+    try {
+      const ok = await submitLead({
+        name: name.trim(),
+        phone: phone.trim(),
+        truck_details: trucks.trim(),
+        departure: departure.trim(),
+        has_license: hasLicense === "yes" ? (lang === "ro" ? "Da" : "Да") : (lang === "ro" ? "Nu" : "Не"),
+        form_type: "full_application",
+        language: lang,
       });
-      if (onSuccess) onSuccess();
+
+      setIsSubmitting(false);
+
+      if (ok) {
+        setIsSubmitted(true);
+        try {
+          trackPixelEvent(
+            "Lead",
+            {
+              content_name: "Freight Partner Application",
+              currency: "EUR",
+              value: 100,
+            },
+            {
+              phone: phone.trim(),
+              name: name.trim(),
+            }
+          );
+        } catch {
+          // ignore tracking error
+        }
+        try {
+          confetti({
+            particleCount: 80,
+            spread: 60,
+            origin: { y: 0.6 },
+            colors: ["#237D73", "#D9FF43", "#123D39"],
+          });
+        } catch {
+          // ignore confetti if blocked
+        }
+        if (onSuccess) onSuccess();
+      } else {
+        setSubmitError(t.form.errorMessage);
+      }
+    } catch {
+      setIsSubmitting(false);
+      setSubmitError(t.form.errorMessage);
     }
   };
 
   if (isSubmitted) {
     return (
       <div className="text-center py-10 px-4 space-y-4">
-        <div className="w-16 h-16 rounded-2xl bg-[#237D73] text-[#D9FF43] mx-auto flex items-center justify-center">
+        <div className="w-16 h-16 rounded-2xl bg-[#237D73] text-[#D9FF43] mx-auto flex items-center justify-center shadow-md">
           <CheckCircle2 className="w-9 h-9" />
         </div>
         <h3 className="font-headline font-bold text-2xl sm:text-3xl text-[#123D39]">
@@ -111,6 +147,13 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {submitError && (
+        <div className="flex items-center gap-3 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm">
+          <AlertCircle className="w-5 h-5 shrink-0" />
+          <span>{submitError}</span>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
         {/* 1. Имя */}
         <div>
@@ -118,13 +161,25 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
             {t.form.nameLabel} *
           </label>
           <input
+            ref={nameInputRef}
             type="text"
             required
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => {
+              setName(e.target.value);
+              if (nameError) setNameError("");
+              if (submitError) setSubmitError("");
+            }}
             placeholder={t.form.namePlaceholder}
-            className="w-full px-4 py-3 rounded-xl bg-white border border-[#C9CFCC] text-[#161D1C] placeholder-[#161D1C]/40 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] transition-all"
+            className={`w-full px-4 py-3 rounded-xl bg-white border text-[#161D1C] placeholder-[#161D1C]/40 text-sm focus:outline-none focus:ring-2 focus:ring-[#237D73] transition-all ${
+              nameError ? "border-red-500" : "border-[#C9CFCC]"
+            }`}
           />
+          {nameError && (
+            <p className="text-xs text-red-600 font-medium mt-1">
+              {nameError}
+            </p>
+          )}
         </div>
 
         {/* 2. Телефон / WhatsApp со строгой валидацией */}
@@ -134,6 +189,7 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
           </label>
           <div className="relative">
             <input
+              ref={phoneInputRef}
               type="tel"
               required
               value={phone}
@@ -260,14 +316,24 @@ export function UnifiedPartnerForm({ onSuccess, isModal = false }: UnifiedPartne
       {/* Кнопка отправки */}
       <div className="pt-1">
         <button
+          id="submit-partner-form"
+          name="submit-partner-form"
           type="submit"
           disabled={isSubmitting}
-          className="w-full py-4 px-8 rounded-xl font-headline font-bold text-base bg-[#237D73] hover:bg-[#123D39] text-[#D9FF43] transition-all flex items-center justify-center gap-2 shadow-md active:scale-[0.99] disabled:opacity-75 cursor-pointer"
+          data-button-type="lead-submit"
+          className="w-full py-4 px-8 rounded-xl font-headline font-bold text-base bg-[#237D73] hover:bg-[#123D39] text-[#D9FF43] transition-all flex items-center justify-center gap-2.5 shadow-md active:scale-[0.99] disabled:opacity-75 cursor-pointer"
         >
-          <Send className="w-5 h-5 text-[#D9FF43]" />
-          <span>
-            {isSubmitting ? t.form.submitting : t.form.submitButton}
-          </span>
+          {isSubmitting ? (
+            <>
+              <Loader2 className="w-5 h-5 text-[#D9FF43] animate-spin" />
+              <span>{t.form.submitting}</span>
+            </>
+          ) : (
+            <>
+              <Send className="w-5 h-5 text-[#D9FF43]" />
+              <span>{t.form.submitButton}</span>
+            </>
+          )}
         </button>
       </div>
     </form>

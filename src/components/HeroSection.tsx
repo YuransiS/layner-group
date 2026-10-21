@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
+import { trackPixelEvent } from "@/lib/pixel";
 import { ArrowRight } from "lucide-react";
 
 interface HeroSectionProps {
@@ -14,14 +15,22 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
 
   const handleCtaClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    try {
+      trackPixelEvent("InitiateCheckout", { content_name: "Hero CTA Partner Click" });
+    } catch {}
+
     // На мобильных устройствах (< 1024px) открываем модальное окно
     if (typeof window !== "undefined" && window.innerWidth < 1024) {
       onOpenModal();
     } else {
-      // На десктопе плавно скроллим к единой нижней форме
+      // На десктопе плавно скроллим к единой нижней форме и фокусируем поле ввода
       const el = document.getElementById("apply");
       if (el) {
         el.scrollIntoView({ behavior: "smooth" });
+        setTimeout(() => {
+          const input = el.querySelector("input");
+          if (input) input.focus();
+        }, 400);
       }
     }
   };
@@ -38,10 +47,7 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
           className="object-cover object-[center_65%]"
           sizes="100vw"
         />
-        {/* Продуманный градиент для максимальной читаемости текста и сохранения чистого обзора фургона:
-            - 0% - 35%: глубокое затемнение графитом (#161D1C), устраняющее блики от белых облаков и снежных гор
-            - 45% - 72%: полупрозрачное окно, полностью открывающее фургон и альпийскую дорогу
-            - 75% - 100%: плавный уход в темный тил (#123D39) под кнопку действия */}
+        {/* Продуманный градиент для максимальной читаемости текста и сохранения чистого обзора фургона */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -87,6 +93,8 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
             {/* Единая CTA кнопка */}
             <div className="pt-6 pb-4 sm:pb-0 lg:pt-4">
               <button
+                id="hero-cta-button"
+                name="hero-cta-button"
                 type="button"
                 onClick={handleCtaClick}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 sm:py-4.5 rounded-xl font-headline font-bold text-base sm:text-lg bg-[#237D73] hover:bg-[#123D39] text-[#D9FF43] transition-all shadow-xl active:scale-98 cursor-pointer border border-[#D9FF43]/20"
@@ -97,7 +105,7 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
             </div>
           </div>
 
-          {/* Правая колонка: Десктопное тематическое фото (на мобилке фоном служит 9:16) */}
+          {/* Правая колонка: Десктопное тематическое фото */}
           <div className="hidden lg:block lg:col-span-5 relative">
             <div className="relative rounded-3xl overflow-hidden border border-[#C9CFCC] shadow-xl">
               <div className="relative aspect-4/3 sm:aspect-16/11 w-full bg-[#123D39]">

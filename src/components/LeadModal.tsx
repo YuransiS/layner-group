@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { UnifiedPartnerForm } from "./UnifiedPartnerForm";
 import { X } from "lucide-react";
@@ -14,11 +14,34 @@ interface LeadModalProps {
 export function LeadModal({ isOpen, onClose, onSuccess }: LeadModalProps) {
   const { t } = useLanguage();
 
+  // Блокируем скролл фона и слушаем Escape
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") onClose();
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.style.overflow = "";
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="relative w-full max-w-xl max-h-[92vh] overflow-y-auto bg-[#F4F3EE] rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 border border-[#C9CFCC] shadow-2xl text-[#161D1C]">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/70 backdrop-blur-xs animate-in fade-in duration-200"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-xl max-h-[92vh] overflow-y-auto bg-[#F4F3EE] rounded-t-3xl sm:rounded-3xl p-6 sm:p-8 border border-[#C9CFCC] shadow-2xl text-[#161D1C]"
+      >
         {/* Close Button */}
         <button
           onClick={onClose}

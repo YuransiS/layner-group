@@ -24,9 +24,9 @@ const GOOGLE_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbwbjB_JP2e-CU0UPte24vOC_0ivzRskf21AcAUulsn-lyewvp2EcQmchARdtF9pZ9tD/exec";
 
 export function validatePhone(phone: string): boolean {
-  // Минимум 8 цифр, допустимы символы +, -, пробелы, скобки
+  // Минимум 7 цифр, максимум 16 цифр (поддержка болгарских, румынских и международных форматов)
   const digitsOnly = phone.replace(/\D/g, "");
-  return digitsOnly.length >= 8 && digitsOnly.length <= 16;
+  return digitsOnly.length >= 7 && digitsOnly.length <= 16;
 }
 
 export async function submitLead(data: LeadData): Promise<boolean> {

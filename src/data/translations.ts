@@ -78,6 +78,7 @@ export interface Translations {
     successMessage: string;
     phoneError: string;
     consentError: string;
+    errorMessage: string;
   };
   footer: {
     rights: string;
@@ -224,7 +225,7 @@ export const translations: Record<Language, Translations> = {
       departureLabel: "Din ce loc plecați",
       departurePlaceholder: "Din ce loc plecați",
       phoneLabel: "Telefon / WhatsApp",
-      phonePlaceholder: "Telefon / WhatsApp",
+      phonePlaceholder: "+40... sau 07...",
       licenseLabel: "Aveți licență UE și CMR?",
       licenseYes: "Da",
       licenseNo: "Nu / În curs",
@@ -232,8 +233,9 @@ export const translations: Record<Language, Translations> = {
       submitButton: "Trimiteți cererea",
       submitting: "Se trimite...",
       successMessage: "Gata! Vă scriem pe WhatsApp în cursul zilei lucrătoare.",
-      phoneError: "Vă rugăm să introduceți un număr de telefon valid (minim 8 cifre)",
+      phoneError: "Vă rugăm să introduceți un număr de telefon valid",
       consentError: "Este necesar acordul pentru prelucrarea datelor cu caracter personal",
+      errorMessage: "Nu s-a putut trimite cererea. Vă rugăm să încercați din nou",
     },
     footer: {
       rights: "Layner Group. Toate drepturile rezervate.",
@@ -379,7 +381,7 @@ export const translations: Record<Language, Translations> = {
       departureLabel: "От къде тръгвате",
       departurePlaceholder: "От къде тръгвате",
       phoneLabel: "Телефон / WhatsApp",
-      phonePlaceholder: "Телефон / WhatsApp",
+      phonePlaceholder: "+359... или 088...",
       licenseLabel: "Имате ли лиценз на ЕС и CMR?",
       licenseYes: "Да",
       licenseNo: "Не / В процес",
@@ -388,8 +390,9 @@ export const translations: Record<Language, Translations> = {
       submitting: "Изпращане...",
       successMessage:
         "Готово! Ще ви пишем в WhatsApp до края на работния ден.",
-      phoneError: "Моля, въведете валиден телефонен номер (поне 8 цифри)",
+      phoneError: "Моля, въведете валиден телефонен номер",
       consentError: "Необходимо е съгласие за обработване на личните данни",
+      errorMessage: "Не успяхме да изпратим заявката. Моля, опитайте отново",
     },
     footer: {
       rights: "Layner Group. Всички права запазени.",
