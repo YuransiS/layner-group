@@ -16,7 +16,7 @@
   - Route Gray: `#C9CFCC`
   - Soft Gray: `#D9E0DD`
   - Signal Lime: `#D9FF43`
-- **Интеграция лидов:** Next.js Server Route `/api/lead` (Vercel IP & Geo Headers) -> Google Apps Script Web App (`/exec`) -> Google Таблицы
+- **Интеграция лидов:** Next.js Server Route `/api/lead` (Vercel IP & Geo Headers) -> KeyCRM OpenAPI (`/v1/pipelines/cards`) + Google Apps Script Web App (`/exec`) -> Google Таблицы
 - **Аналитика:** Meta Pixel (ID: 1478474474170852) с Dual-Storage Attribution (localStorage + 30-day 1st-party Cookie)
 
 ---
