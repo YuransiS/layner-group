@@ -41,20 +41,27 @@ export async function POST(req: NextRequest) {
         const sourceId = Number(process.env.KEYCRM_SOURCE_ID || 1);
         const statusId = Number(process.env.KEYCRM_STATUS_ID || 1);
 
+        const city = body.departure?.trim() || geo || "Не указан";
+        const license = body.has_license || "Не указано";
+        const truckInfo = body.truck_details?.trim() || "Не указано";
+
         const commentLines = [
-          "🚚 ДАННЫЕ ЗАЯВКИ (Layner Group):",
-          `• Тягачи / Авто: ${body.truck_details || "Не указано"}`,
-          `• Направления: ${body.departure || "Не указано"}`,
-          `• Лицензия: ${body.has_license || "Не указано"}`,
-          `• Статус компании: ${body.company_status || "Не указано"}`,
+          "📋 ДАННЫЕ КОНТАКТА:",
+          `• Город: ${city}`,
+          `• Есть лицензия: ${license}`,
+          `• Сколько машин: ${truckInfo}`,
+          `• Какие машины по тоны: ${truckInfo}`,
+          "",
+          "ℹ️ Дополнительно:",
+          `• Статус компании: ${body.company_status || "Работает (активна)"}`,
           `• Язык сайта: ${(body.language || "ro").toUpperCase()}`,
-          `• Тип формы: ${body.form_type || "Не указано"}`,
-          `• Локация: ${geo || "Не определено"} (IP: ${ip})`,
+          `• Форма: ${body.form_type === "quick_hero" ? "Быстрая (Hero)" : "Полная заявка"}`,
+          `• IP / Гео: ${geo || ip || "Не определено"}`,
           `• Страница: ${payload.source}`,
           body.bw_cid ? `• BW CID: ${body.bw_cid}` : null,
           body.fbclid ? `• FBCLID: ${body.fbclid}` : null,
           body.visitor_uuid ? `• Visitor UUID: ${body.visitor_uuid}` : null,
-        ].filter(Boolean);
+        ].filter((line) => line !== null);
 
         const keyCrmBody = {
           title: body.name
