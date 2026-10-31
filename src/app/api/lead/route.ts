@@ -63,6 +63,19 @@ export async function POST(req: NextRequest) {
           body.visitor_uuid ? `• Visitor UUID: ${body.visitor_uuid}` : null,
         ].filter((line) => line !== null);
 
+        const hasLicenseLower = (body.has_license || "").toLowerCase();
+        const hasLicenseBool =
+          !hasLicenseLower.includes("нет") &&
+          !hasLicenseLower.includes("nu") &&
+          !hasLicenseLower.includes("не");
+
+        const customFields = [
+          { uuid: "LD_1005", value: city },
+          { uuid: "LD_1006", value: hasLicenseBool },
+          { uuid: "LD_1007", value: truckInfo },
+          { uuid: "LD_1008", value: truckInfo },
+        ];
+
         const keyCrmBody = {
           title: body.name
             ? `${body.name} [${(body.language || "ro").toUpperCase()}]`
@@ -76,6 +89,7 @@ export async function POST(req: NextRequest) {
             email: body.email || undefined,
           },
           manager_comment: commentLines.join("\n"),
+          custom_fields: customFields,
           utm_source: body.utm_source || undefined,
           utm_medium: body.utm_medium || undefined,
           utm_campaign: body.utm_campaign || undefined,
