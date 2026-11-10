@@ -58,6 +58,38 @@ export async function POST(req: NextRequest) {
 
     console.log("[Zadarma Webhook] Incoming notification event:", body.event || "UNKNOWN", body);
 
+    // 2.1 Graceful fallback: If KeyCRM call initiation was accidentally routed to this webhook URL
+    if (body.destination_number || (body.caller && !body.event)) {
+      console.log("[Zadarma Webhook] Detected KeyCRM call initiation request routed to webhook endpoint. Executing call...");
+      const from = String(body.caller || body.from || "100").trim();
+      const rawTo = String(body.destination_number || body.to || body.phone || "").trim();
+      const digitsTo = rawTo.replace(/\D/g, "");
+
+      const callbackParams: Record<string, string> = { from, to: digitsTo };
+      if (digitsTo.startsWith("40")) {
+        callbackParams.caller_id = "40361630152";
+      } else if (digitsTo.startsWith("359")) {
+        callbackParams.caller_id = "35952920168";
+      }
+
+      const { ok, data } = await callZadarmaApi<{ status: string; message?: string }>(
+        "/v1/request/callback/",
+        callbackParams,
+        "GET"
+      );
+
+      if (ok && data.status === "success") {
+        console.log("[Zadarma Webhook] Handled KeyCRM call successfully:", data);
+        return NextResponse.json({ status: "success" }, { status: 200 });
+      }
+
+      console.error("[Zadarma Webhook] Failed to initiate Zadarma call:", data);
+      return NextResponse.json(
+        { status: "error", message: data.message || "Call initiation failed" },
+        { status: 500 }
+      );
+    }
+
     // 3. Signature Validation
     const signatureHeader =
       req.headers.get("signature") ||

@@ -54,17 +54,18 @@ export async function POST(req: NextRequest) {
       callerId = "35952920168";
     }
 
-    console.log(`[KeyCRM Call] Initiating call from ${from} to ${to} (Caller ID: ${callerId || "default"})...`);
+    console.log(`[KeyCRM Call] Initiating call from ${from} to ${digitsTo} (Caller ID: ${callerId || "default"})...`);
 
-    const callbackParams: Record<string, string> = { from, to };
+    const callbackParams: Record<string, string> = { from, to: digitsTo };
     if (callerId) {
       callbackParams.caller_id = callerId;
     }
 
+    // Zadarma API /v1/request/callback/ strictly requires HTTP GET
     const { ok, data } = await callZadarmaApi<ZadarmaCallbackResponse>(
       "/v1/request/callback/",
       callbackParams,
-      "POST"
+      "GET"
     );
 
     if (ok && data.status === "success") {
