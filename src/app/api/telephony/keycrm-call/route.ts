@@ -43,11 +43,27 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log(`[KeyCRM Call] Initiating call from ${from} to ${to}...`);
+    // Автоматическое определение АОН (Caller ID) по стране клиента:
+    // Румыния (+40) -> звоним с румынского номера 40361630152
+    // Болгария (+359) -> звоним с болгарского номера 35952920168
+    const digitsTo = to.replace(/\D/g, "");
+    let callerId: string | undefined = undefined;
+    if (digitsTo.startsWith("40")) {
+      callerId = "40361630152";
+    } else if (digitsTo.startsWith("359")) {
+      callerId = "35952920168";
+    }
+
+    console.log(`[KeyCRM Call] Initiating call from ${from} to ${to} (Caller ID: ${callerId || "default"})...`);
+
+    const callbackParams: Record<string, string> = { from, to };
+    if (callerId) {
+      callbackParams.caller_id = callerId;
+    }
 
     const { ok, data } = await callZadarmaApi<ZadarmaCallbackResponse>(
       "/v1/request/callback/",
-      { from, to },
+      callbackParams,
       "POST"
     );
 
